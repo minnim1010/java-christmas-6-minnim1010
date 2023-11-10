@@ -1,4 +1,4 @@
-package christmas.io.reader;
+package christmas.view.io.reader;
 
 public interface Reader {
     String readLine();
