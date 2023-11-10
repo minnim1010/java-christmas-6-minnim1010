@@ -12,6 +12,7 @@ import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
@@ -176,6 +177,23 @@ class ChristmasViewTest {
         //when
         christmasView.outputBenefitPrice(benefitPriceOutputDto);
         //then
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+    @Test
+    void 할인후_예상결제금액_출력_테스트() {
+        //given
+        int price = 135_754;
+        BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto = new BenefitAppliedPriceOutputDto(
+                Money.valueOf(price));
+        //when
+        christmasView.outputBenefitAppliedPrice(benefitAppliedPriceOutputDto);
+        //then
+        String expected = """    
+                                
+                <할인 후 예상 결제 금액>
+                135,754원
+                """;
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
 }

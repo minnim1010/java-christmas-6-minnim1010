@@ -5,6 +5,7 @@ import static christmas.view.constants.MessageFormat.LINE_SEPARATOR;
 import static christmas.view.constants.MessageFormat.MENU_ITEM;
 import static christmas.view.constants.MessageFormat.PRICE;
 import static christmas.view.constants.MessageFormat.PROMOTION_BENEFIT_ITEM;
+import static christmas.view.constants.NoticeMessage.BENEFIT_APPLIED_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
@@ -22,6 +23,7 @@ import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
@@ -120,6 +122,13 @@ public class ChristmasView {
         Money benefitPrice = benefitPriceOutputDto.benefitAppliedPrice();
         String benefitPriceMessage = getBenefitPriceMessage(DISCOUNT_PRICE.value, benefitPrice);
         String resultMessage = getResultMessage(BENEFIT_PRICE_MESSAGE.value, benefitPriceMessage);
+        writer.writeLine(resultMessage);
+    }
+
+    public void outputBenefitAppliedPrice(BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto) {
+        Money benefitAppliedPrice = benefitAppliedPriceOutputDto.benefitAppliedPrice();
+        String orderPriceMessage = String.format(PRICE.value, benefitAppliedPrice.getValue());
+        String resultMessage = getResultMessage(BENEFIT_APPLIED_PRICE_MESSAGE.value, orderPriceMessage);
         writer.writeLine(resultMessage);
     }
 }
