@@ -3,12 +3,16 @@ package christmas.view;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
+import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.dto.input.OrderMenuDto;
-import christmas.dto.input.ReservedVisitDateDto;
+import christmas.dto.input.OrderMenuInputDto;
+import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.ReservedVisitDateOutputDto;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 class ChristmasViewTest {
@@ -33,7 +37,7 @@ class ChristmasViewTest {
         String day = "1";
         reader.setInput(day);
         //when
-        ReservedVisitDateDto reservedVisitDateDto = christmasView.inputReservedVisitDay();
+        ReservedVisitDateInputDto reservedVisitDateDto = christmasView.inputReservedVisitDay();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_RESERVED_VISIT_DATE_MESSAGE.value + LINE_SEPARATOR);
         assertThat(reservedVisitDateDto.reservedVisitDate()).isEqualTo(day);
@@ -45,9 +49,21 @@ class ChristmasViewTest {
         String orderMenu = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
         reader.setInput(orderMenu);
         //when
-        OrderMenuDto orderMenuDto = christmasView.inputOrderMenu();
+        OrderMenuInputDto orderMenuInputDto = christmasView.inputOrderMenu();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_ORDER_MENU_MESSAGE.value + LINE_SEPARATOR);
-        assertThat(orderMenuDto.orderMenu()).isEqualTo(orderMenu);
+        assertThat(orderMenuInputDto.orderMenu()).isEqualTo(orderMenu);
+    }
+
+    @Test
+    void 이벤트혜택_미리보기_시작_출력_테스트() {
+        //given
+        ReservedVisitDateOutputDto reservedVisitDateOutputDto = new ReservedVisitDateOutputDto(
+                LocalDate.of(2023, 12, 1));
+        //when
+        christmasView.outputPromotionBenefitPreviewStart(reservedVisitDateOutputDto);
+        //then
+        assertThat(writer.getOutput()).isEqualTo(
+                format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
     }
 }
