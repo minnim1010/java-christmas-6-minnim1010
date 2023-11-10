@@ -7,12 +7,15 @@ import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_S
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
 import java.time.LocalDate;
+import java.util.EnumMap;
 import org.junit.jupiter.api.Test;
 
 class ChristmasViewTest {
@@ -65,5 +68,28 @@ class ChristmasViewTest {
         //then
         assertThat(writer.getOutput()).isEqualTo(
                 format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
+    }
+
+    @Test
+    void 주문한_메뉴_출력_테스트() {
+        //given
+        EnumMap<MenuItem, Integer> orderMenu = new EnumMap<>(MenuItem.class);
+        orderMenu.put(MenuItem.T_BONE_STEAK, 1);
+        orderMenu.put(MenuItem.BBQ_RIB, 1);
+        orderMenu.put(MenuItem.CHOCO_CAKE, 2);
+        orderMenu.put(MenuItem.ZERO_COLA, 1);
+        OrderMenuOutputDto orderMenuOutputDto = new OrderMenuOutputDto(orderMenu);
+        //when
+        christmasView.outputOrderMenu(orderMenuOutputDto);
+        //then
+        String expected = """    
+                                
+                <주문 메뉴>
+                티본스테이크 1개
+                바비큐립 1개
+                초코케이크 2개
+                제로콜라 1개
+                """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
     }
 }

@@ -3,7 +3,8 @@ package christmas.view.constants;
 public enum MessageFormat {
     MENU_ITEM("%s %d개"),
     PRICE("%,d원"),
-    DISCOUNT_PRICE("-%,d원");
+    DISCOUNT_PRICE("-%,d원"),
+    LINE_SEPARATOR(System.lineSeparator());
 
     public final String value;
 
