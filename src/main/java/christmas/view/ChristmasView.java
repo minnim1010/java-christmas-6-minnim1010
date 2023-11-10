@@ -1,5 +1,6 @@
 package christmas.view;
 
+import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
 
 import christmas.dto.input.ReservedVisitDateDto;
@@ -15,9 +16,12 @@ public class ChristmasView {
         this.writer = writer;
     }
 
+    public void greet() {
+        writer.writeLine(GREET_MESSAGE.value);
+    }
+
     public ReservedVisitDateDto inputReservedVisitDay() {
         writer.writeLine(INPUT_RESERVED_VISIT_DATE_MESSAGE.value);
         return new ReservedVisitDateDto(reader.readLine());
     }
-
 }
