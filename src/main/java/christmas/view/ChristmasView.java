@@ -8,6 +8,7 @@ import static christmas.view.constants.MessageFormat.PROMOTION_BENEFIT_ITEM;
 import static christmas.view.constants.NoticeMessage.BENEFIT_APPLIED_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_PRICE_MESSAGE;
+import static christmas.view.constants.NoticeMessage.EVENT_BADGE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
@@ -20,11 +21,13 @@ import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
 import christmas.domain.base.Money;
 import christmas.domain.constants.ChristmasPromotionEvent;
+import christmas.domain.constants.EventBadge;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
+import christmas.dto.output.EventBadgeOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
@@ -113,8 +116,9 @@ public class ChristmasView {
     }
 
     private static String getBenefitPriceMessage(String benefitPriceFormat, Money benefitPrice) {
-        if(benefitPrice.isZero())
+        if (benefitPrice.isZero()) {
             return NO_BENEFIT_PRICE.value;
+        }
         return String.format(benefitPriceFormat, benefitPrice.getValue());
     }
 
@@ -129,6 +133,20 @@ public class ChristmasView {
         Money benefitAppliedPrice = benefitAppliedPriceOutputDto.benefitAppliedPrice();
         String orderPriceMessage = String.format(PRICE.value, benefitAppliedPrice.getValue());
         String resultMessage = getResultMessage(BENEFIT_APPLIED_PRICE_MESSAGE.value, orderPriceMessage);
+        writer.writeLine(resultMessage);
+    }
+
+    private static String getEventBadgeMessage(EventBadge eventBadge) {
+        if (eventBadge == null) {
+            return NOT_APPLICABLE.value;
+        }
+        return eventBadge.getName();
+    }
+
+    public void outputEventBadge(EventBadgeOutputDto eventBadgeOutputDto) {
+        EventBadge eventBadge = eventBadgeOutputDto.eventBadge();
+        String eventBadgeMessage = getEventBadgeMessage(eventBadge);
+        String resultMessage = getResultMessage(EVENT_BADGE_MESSAGE.value, eventBadgeMessage);
         writer.writeLine(resultMessage);
     }
 }

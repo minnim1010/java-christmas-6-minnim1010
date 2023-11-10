@@ -9,11 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
 import christmas.domain.constants.ChristmasPromotionEvent;
+import christmas.domain.constants.EventBadge;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
+import christmas.dto.output.EventBadgeOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
@@ -160,7 +162,7 @@ class ChristmasViewTest {
     }
 
 
-    static Stream<Arguments> getBenefitPriceArgument() {
+    private static Stream<Arguments> getBenefitPriceArgument() {
         return Stream.of(
                 Arguments.of(31246,
                         String.format("%s<총혜택 금액>%s-31,246원%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
@@ -194,6 +196,26 @@ class ChristmasViewTest {
                 <할인 후 예상 결제 금액>
                 135,754원
                 """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> getEventBadgeArgument() {
+        return Stream.of(
+                Arguments.of(EventBadge.SANTA,
+                        String.format("%s<12월 이벤트 배지>%s산타%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
+                Arguments.of(null,
+                        String.format("%s<12월 이벤트 배지>%s없음%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR))
+        );
+    }
+
+    @MethodSource("getEventBadgeArgument")
+    @ParameterizedTest
+    void 이벤트뱃지_출력_테스트(EventBadge badge, String expected) {
+        //given
+        EventBadgeOutputDto eventBadgeOutputDto = new EventBadgeOutputDto(badge);
+        //when
+        christmasView.outputEventBadge(eventBadgeOutputDto);
+        //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
 }

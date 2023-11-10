@@ -18,7 +18,7 @@ public class Money {
     }
 
     public boolean isZero(){
-        return this.getValue() == ZERO;
+        return this.value == ZERO;
     }
 
     @Override
