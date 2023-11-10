@@ -14,7 +14,8 @@ public enum NoticeMessage {
     BENEFIT_APPLIED_PRICE_MESSAGE("<할인 후 예상 결제 금액>"),
     EVENT_BADGE_MESSAGE("<12월 이벤트 배지>"),
 
-    NOT_APPLICABLE("없음");
+    NOT_APPLICABLE("없음"),
+    NO_BENEFIT_PRICE("0원");
 
     public final String value;
 

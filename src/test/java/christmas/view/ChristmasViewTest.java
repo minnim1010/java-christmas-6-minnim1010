@@ -12,6 +12,7 @@ import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
@@ -21,7 +22,11 @@ import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
 import java.time.LocalDate;
 import java.util.EnumMap;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class ChristmasViewTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
@@ -144,12 +149,33 @@ class ChristmasViewTest {
         //then
         String expected = """
                          
-                <혜택 내역>                                
+                <혜택 내역>
                 크리스마스 디데이 할인: -1,200원
                 평일 할인: -4,046원
                 특별 할인: -1,000원
                 증정 이벤트: -25,000원
                 """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+
+    static Stream<Arguments> getBenefitPriceArgument() {
+        return Stream.of(
+                Arguments.of(31246,
+                        String.format("%s<총혜택 금액>%s-31,246원%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
+                Arguments.of(0,
+                        String.format("%s<총혜택 금액>%s0원%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR))
+        );
+    }
+
+    @MethodSource("getBenefitPriceArgument")
+    @ParameterizedTest
+    void 혜택금액_출력_테스트(int price, String expected) {
+        //given
+        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(Money.valueOf(price));
+        //when
+        christmasView.outputBenefitPrice(benefitPriceOutputDto);
+        //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
 }

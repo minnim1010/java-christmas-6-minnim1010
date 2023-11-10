@@ -1,14 +1,17 @@
 package christmas.view;
 
+import static christmas.view.constants.MessageFormat.DISCOUNT_PRICE;
 import static christmas.view.constants.MessageFormat.LINE_SEPARATOR;
 import static christmas.view.constants.MessageFormat.MENU_ITEM;
 import static christmas.view.constants.MessageFormat.PRICE;
 import static christmas.view.constants.MessageFormat.PROMOTION_BENEFIT_ITEM;
 import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
+import static christmas.view.constants.NoticeMessage.BENEFIT_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.NOT_APPLICABLE;
+import static christmas.view.constants.NoticeMessage.NO_BENEFIT_PRICE;
 import static christmas.view.constants.NoticeMessage.ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
@@ -19,6 +22,7 @@ import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
@@ -103,6 +107,19 @@ public class ChristmasView {
         EnumMap<ChristmasPromotionEvent, Money> promotionBenefit = promotionBenefitOutputDto.promotionBenefit();
         String promotionBenefitMessage = getPromotionBenefitMessage(promotionBenefit);
         String resultMessage = getResultMessage(BENEFIT_LIST_MESSAGE.value, promotionBenefitMessage);
+        writer.writeLine(resultMessage);
+    }
+
+    private static String getBenefitPriceMessage(String benefitPriceFormat, Money benefitPrice) {
+        if(benefitPrice.isZero())
+            return NO_BENEFIT_PRICE.value;
+        return String.format(benefitPriceFormat, benefitPrice.getValue());
+    }
+
+    public void outputBenefitPrice(BenefitPriceOutputDto benefitPriceOutputDto) {
+        Money benefitPrice = benefitPriceOutputDto.benefitAppliedPrice();
+        String benefitPriceMessage = getBenefitPriceMessage(DISCOUNT_PRICE.value, benefitPrice);
+        String resultMessage = getResultMessage(BENEFIT_PRICE_MESSAGE.value, benefitPriceMessage);
         writer.writeLine(resultMessage);
     }
 }
