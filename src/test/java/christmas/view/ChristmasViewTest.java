@@ -11,6 +11,7 @@ import christmas.domain.base.Money;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
@@ -107,6 +108,22 @@ class ChristmasViewTest {
                                 
                 <할인 전 총주문 금액>
                 142,000원
+                """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+    @Test
+    void 증정메뉴_출력_테스트() {
+        //given
+        MenuItem giveaway = MenuItem.CHAMPAGNE;
+        GiveawayMenuOutputDto giveawayMenuOutputDto = new GiveawayMenuOutputDto(giveaway, 1);
+        //when
+        christmasView.outputGiveawayMenu(giveawayMenuOutputDto);
+        //then
+        String expected = """
+                                
+                <증정 메뉴>
+                샴페인 1개
                 """;
         assertThat(writer.getOutput()).isEqualTo(expected);
     }

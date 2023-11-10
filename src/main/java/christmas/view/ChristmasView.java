@@ -6,13 +6,16 @@ import static christmas.view.constants.MessageFormat.PRICE;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
-import static christmas.view.constants.NoticeMessage.ORDER_MENU_LIST_MESSAGE;
+import static christmas.view.constants.NoticeMessage.ORDER_MENU_MESSAGE;
+import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
+import christmas.domain.base.Money;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
+import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
@@ -57,17 +60,26 @@ public class ChristmasView {
                         String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
 
-        String resultMessage = LINE_SEPARATOR.value + String.join(LINE_SEPARATOR.value,
-                ORDER_MENU_LIST_MESSAGE.value,
-                orderMenuMessage);
+        String resultMessage = getResultMessage(ORDER_MENU_MESSAGE.value, orderMenuMessage);
         writer.writeLine(resultMessage);
     }
 
+    private String getResultMessage(String title, String value) {
+        return LINE_SEPARATOR.value + String.join(LINE_SEPARATOR.value, title, value);
+    }
+
     public void outputOrderPrice(OrderPriceOutputDto orderPriceOutputDto) {
-        String orderPriceMessage = String.format(PRICE.value, orderPriceOutputDto.orderPrice().getValue());
-        String resultMessage = LINE_SEPARATOR.value + String.join(LINE_SEPARATOR.value,
-                TOTAL_ORDER_PRICE_MESSAGE.value,
-                orderPriceMessage);
+        Money orderPrice = orderPriceOutputDto.orderPrice();
+        String orderPriceMessage = String.format(PRICE.value, orderPrice.getValue());
+        String resultMessage = getResultMessage(TOTAL_ORDER_PRICE_MESSAGE.value, orderPriceMessage);
+        writer.writeLine(resultMessage);
+    }
+
+    public void outputGiveawayMenu(GiveawayMenuOutputDto giveawayMenuOutputDto) {
+        MenuItem giveaway = giveawayMenuOutputDto.giveaway();
+        int count = giveawayMenuOutputDto.count();
+        String giveawayMenuMessage = String.format(MENU_ITEM.value, giveaway.getName(), count);
+        String resultMessage = getResultMessage(OUTPUT_GIVEAWAY_MENU_MESSAGE.value, giveawayMenuMessage);
         writer.writeLine(resultMessage);
     }
 }
