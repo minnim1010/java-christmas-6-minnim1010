@@ -8,12 +8,14 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
+import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
+import christmas.dto.output.PromotionBenefitOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
@@ -124,6 +126,29 @@ class ChristmasViewTest {
                                 
                 <증정 메뉴>
                 샴페인 1개
+                """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+    @Test
+    void 혜택내역_출력_테스트() {
+        //given
+        EnumMap<ChristmasPromotionEvent, Money> promotionBenefit = new EnumMap<>(ChristmasPromotionEvent.class);
+        promotionBenefit.put(ChristmasPromotionEvent.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
+        promotionBenefit.put(ChristmasPromotionEvent.WEEKDAY_DISCOUNT, Money.valueOf(4046));
+        promotionBenefit.put(ChristmasPromotionEvent.SPECIAL_DISCOUNT, Money.valueOf(1000));
+        promotionBenefit.put(ChristmasPromotionEvent.GIVEAWAY, Money.valueOf(25000));
+        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
+        //when
+        christmasView.outputPromotionBenefitList(promotionBenefitOutputDto);
+        //then
+        String expected = """
+                         
+                <혜택 내역>                                
+                크리스마스 디데이 할인: -1,200원
+                평일 할인: -4,046원
+                특별 할인: -1,000원
+                증정 이벤트: -25,000원
                 """;
         assertThat(writer.getOutput()).isEqualTo(expected);
     }

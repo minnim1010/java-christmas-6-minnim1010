@@ -3,21 +3,26 @@ package christmas.view;
 import static christmas.view.constants.MessageFormat.LINE_SEPARATOR;
 import static christmas.view.constants.MessageFormat.MENU_ITEM;
 import static christmas.view.constants.MessageFormat.PRICE;
+import static christmas.view.constants.MessageFormat.PROMOTION_BENEFIT_ITEM;
+import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
 import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
+import static christmas.view.constants.NoticeMessage.NOT_APPLICABLE;
 import static christmas.view.constants.NoticeMessage.ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
 import christmas.domain.base.Money;
+import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.GiveawayMenuOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
+import christmas.dto.output.PromotionBenefitOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
 import christmas.view.io.reader.Reader;
 import christmas.view.io.writer.Writer;
@@ -80,6 +85,24 @@ public class ChristmasView {
         int count = giveawayMenuOutputDto.count();
         String giveawayMenuMessage = String.format(MENU_ITEM.value, giveaway.getName(), count);
         String resultMessage = getResultMessage(OUTPUT_GIVEAWAY_MENU_MESSAGE.value, giveawayMenuMessage);
+        writer.writeLine(resultMessage);
+    }
+
+    private static String getPromotionBenefitMessage(EnumMap<ChristmasPromotionEvent, Money> promotionBenefit) {
+        if (promotionBenefit.isEmpty()) {
+            return NOT_APPLICABLE.value;
+        }
+        return promotionBenefit.entrySet().stream()
+                .map(entry ->
+                        String.format(PROMOTION_BENEFIT_ITEM.value,
+                                entry.getKey().getName(), entry.getValue().getValue()))
+                .collect(Collectors.joining(LINE_SEPARATOR.value));
+    }
+
+    public void outputPromotionBenefitList(PromotionBenefitOutputDto promotionBenefitOutputDto) {
+        EnumMap<ChristmasPromotionEvent, Money> promotionBenefit = promotionBenefitOutputDto.promotionBenefit();
+        String promotionBenefitMessage = getPromotionBenefitMessage(promotionBenefit);
+        String resultMessage = getResultMessage(BENEFIT_LIST_MESSAGE.value, promotionBenefitMessage);
         writer.writeLine(resultMessage);
     }
 }

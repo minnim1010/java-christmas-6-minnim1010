@@ -12,7 +12,9 @@ public enum NoticeMessage {
     BENEFIT_LIST_MESSAGE("<혜택 내역>"),
     BENEFIT_PRICE_MESSAGE("<총혜택 금액>"),
     BENEFIT_APPLIED_PRICE_MESSAGE("<할인 후 예상 결제 금액>"),
-    EVENT_BADGE_MESSAGE("<12월 이벤트 배지>");
+    EVENT_BADGE_MESSAGE("<12월 이벤트 배지>"),
+
+    NOT_APPLICABLE("없음");
 
     public final String value;
 
