@@ -218,4 +218,14 @@ class ChristmasViewTest {
         //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
+
+    @Test
+    void 에러메시지_출력_테스트() {
+        //given
+        String errorMessage = "에러 발생.";
+        //when
+        christmasView.outputErrorMessage(errorMessage);
+        //then
+        assertThat(writer.getOutput()).isEqualTo(errorMessage + LINE_SEPARATOR);
+    }
 }

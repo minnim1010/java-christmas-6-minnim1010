@@ -149,4 +149,8 @@ public class ChristmasView {
         String resultMessage = getResultMessage(EVENT_BADGE_MESSAGE.value, eventBadgeMessage);
         writer.writeLine(resultMessage);
     }
+
+    public void outputErrorMessage(String errorMessage) {
+        writer.writeLine(errorMessage);
+    }
 }
