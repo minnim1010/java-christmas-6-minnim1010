@@ -7,10 +7,10 @@ public enum NoticeMessage {
 
     PROMOTION_BENEFIT_PREVIEW_START_MESSAGE("%d월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!"),
     ORDER_MENU_LIST_MESSAGE("<주문 메뉴>"),
-    TOTAL_ORDER_AMOUNT_MESSAGE("<할인 전 총주문 금액>"),
+    TOTAL_ORDER_PRICE_MESSAGE("<할인 전 총주문 금액>"),
     OUTPUT_GIVEAWAY_MENU_MESSAGE("<증정 메뉴>"),
     BENEFIT_LIST_MESSAGE("<혜택 내역>"),
-    BENEFIT_AMOUNT_MESSAGE("<총혜택 금액>"),
+    BENEFIT_PRICE_MESSAGE("<총혜택 금액>"),
     BENEFIT_APPLIED_PRICE_MESSAGE("<할인 후 예상 결제 금액>"),
     EVENT_BADGE_MESSAGE("<12월 이벤트 배지>");
 

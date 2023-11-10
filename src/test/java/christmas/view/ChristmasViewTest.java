@@ -7,10 +7,12 @@ import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_S
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.domain.base.Money;
 import christmas.domain.constants.MenuItem;
 import christmas.dto.input.OrderMenuInputDto;
 import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.OrderMenuOutputDto;
+import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
@@ -89,6 +91,22 @@ class ChristmasViewTest {
                 바비큐립 1개
                 초코케이크 2개
                 제로콜라 1개
+                """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
+    }
+
+    @Test
+    void 할인전_총주문금액_출력_테스트() {
+        //given
+        int price = 142_000;
+        OrderPriceOutputDto orderPriceOutputDto = new OrderPriceOutputDto(Money.valueOf(price));
+        //when
+        christmasView.outputOrderPrice(orderPriceOutputDto);
+        //then
+        String expected = """    
+                                
+                <할인 전 총주문 금액>
+                142,000원
                 """;
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
