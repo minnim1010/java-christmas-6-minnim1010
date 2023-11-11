@@ -9,9 +9,6 @@ import static christmas.view.constants.NoticeMessage.BENEFIT_APPLIED_PRICE_MESSA
 import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.EVENT_BADGE_MESSAGE;
-import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
-import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
-import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.NOT_APPLICABLE;
 import static christmas.view.constants.NoticeMessage.NO_BENEFIT_PRICE;
 import static christmas.view.constants.NoticeMessage.ORDER_MENU_MESSAGE;
@@ -23,8 +20,6 @@ import christmas.domain.base.Money;
 import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.EventBadge;
 import christmas.domain.constants.MenuItem;
-import christmas.dto.input.OrderMenuInputDto;
-import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.EventBadgeOutputDto;
@@ -33,32 +28,15 @@ import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.PromotionBenefitOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
-import christmas.view.io.reader.Reader;
 import christmas.view.io.writer.Writer;
 import java.util.EnumMap;
 import java.util.stream.Collectors;
 
-public class ChristmasView {
-    private final Reader reader;
+public class PromotionApplyResultView {
     private final Writer writer;
 
-    public ChristmasView(Reader reader, Writer writer) {
-        this.reader = reader;
+    public PromotionApplyResultView(Writer writer) {
         this.writer = writer;
-    }
-
-    public void greet() {
-        writer.writeLine(GREET_MESSAGE.value);
-    }
-
-    public ReservedVisitDateInputDto inputReservedVisitDay() {
-        writer.writeLine(INPUT_RESERVED_VISIT_DATE_MESSAGE.value);
-        return new ReservedVisitDateInputDto(reader.readLine());
-    }
-
-    public OrderMenuInputDto inputOrderMenu() {
-        writer.writeLine(INPUT_ORDER_MENU_MESSAGE.value);
-        return new OrderMenuInputDto(reader.readLine());
     }
 
     public void outputPromotionBenefitPreviewStart(ReservedVisitDateOutputDto reservedVisitDateDto) {
@@ -97,7 +75,7 @@ public class ChristmasView {
         writer.writeLine(resultMessage);
     }
 
-    private static String getPromotionBenefitMessage(EnumMap<ChristmasPromotionEvent, Money> promotionBenefit) {
+    private String getPromotionBenefitMessage(EnumMap<ChristmasPromotionEvent, Money> promotionBenefit) {
         if (promotionBenefit.isEmpty()) {
             return NOT_APPLICABLE.value;
         }
@@ -115,7 +93,7 @@ public class ChristmasView {
         writer.writeLine(resultMessage);
     }
 
-    private static String getBenefitPriceMessage(String benefitPriceFormat, Money benefitPrice) {
+    private String getBenefitPriceMessage(String benefitPriceFormat, Money benefitPrice) {
         if (benefitPrice.isZero()) {
             return NO_BENEFIT_PRICE.value;
         }
@@ -136,7 +114,7 @@ public class ChristmasView {
         writer.writeLine(resultMessage);
     }
 
-    private static String getEventBadgeMessage(EventBadge eventBadge) {
+    private String getEventBadgeMessage(EventBadge eventBadge) {
         if (eventBadge == null) {
             return NOT_APPLICABLE.value;
         }
@@ -148,9 +126,5 @@ public class ChristmasView {
         String eventBadgeMessage = getEventBadgeMessage(eventBadge);
         String resultMessage = getResultMessage(EVENT_BADGE_MESSAGE.value, eventBadgeMessage);
         writer.writeLine(resultMessage);
-    }
-
-    public void outputErrorMessage(String errorMessage) {
-        writer.writeLine(errorMessage);
     }
 }

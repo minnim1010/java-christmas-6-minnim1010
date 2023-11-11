@@ -1,8 +1,5 @@
 package christmas.view;
 
-import static christmas.view.constants.NoticeMessage.GREET_MESSAGE;
-import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
-import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,8 +8,6 @@ import christmas.domain.base.Money;
 import christmas.domain.constants.ChristmasPromotionEvent;
 import christmas.domain.constants.EventBadge;
 import christmas.domain.constants.MenuItem;
-import christmas.dto.input.OrderMenuInputDto;
-import christmas.dto.input.ReservedVisitDateInputDto;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.EventBadgeOutputDto;
@@ -21,7 +16,6 @@ import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.PromotionBenefitOutputDto;
 import christmas.dto.output.ReservedVisitDateOutputDto;
-import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
 import java.time.LocalDate;
 import java.util.EnumMap;
@@ -31,45 +25,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ChristmasViewTest {
+class PromotionApplyResultViewTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
-    private final StubReader reader = new StubReader();
     private final StubWriter writer = new StubWriter();
-    private final ChristmasView christmasView = new ChristmasView(reader, writer);
-
-    @Test
-    void 이벤트_플래너_인사_출력_테스트() {
-        //given
-        //when
-        christmasView.greet();
-        //then
-        assertThat(writer.getOutput()).isEqualTo(GREET_MESSAGE.value + LINE_SEPARATOR);
-    }
-
-    @Test
-    void 예약방문날짜_입력_테스트() {
-        //given
-        String day = "1";
-        reader.setInput(day);
-        //when
-        ReservedVisitDateInputDto reservedVisitDateDto = christmasView.inputReservedVisitDay();
-        //then
-        assertThat(writer.getOutput()).isEqualTo(INPUT_RESERVED_VISIT_DATE_MESSAGE.value + LINE_SEPARATOR);
-        assertThat(reservedVisitDateDto.reservedVisitDate()).isEqualTo(day);
-    }
-
-    @Test
-    void 주문할메뉴_입력_테스트() {
-        //given
-        String orderMenu = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
-        reader.setInput(orderMenu);
-        //when
-        OrderMenuInputDto orderMenuInputDto = christmasView.inputOrderMenu();
-        //then
-        assertThat(writer.getOutput()).isEqualTo(INPUT_ORDER_MENU_MESSAGE.value + LINE_SEPARATOR);
-        assertThat(orderMenuInputDto.orderMenu()).isEqualTo(orderMenu);
-    }
+    private final PromotionApplyResultView promotionApplyResultView = new PromotionApplyResultView(writer);
 
     @Test
     void 이벤트혜택_미리보기_시작_출력_테스트() {
@@ -77,7 +37,7 @@ class ChristmasViewTest {
         ReservedVisitDateOutputDto reservedVisitDateOutputDto = new ReservedVisitDateOutputDto(
                 LocalDate.of(2023, 12, 1));
         //when
-        christmasView.outputPromotionBenefitPreviewStart(reservedVisitDateOutputDto);
+        promotionApplyResultView.outputPromotionBenefitPreviewStart(reservedVisitDateOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(
                 format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
@@ -93,7 +53,7 @@ class ChristmasViewTest {
         orderMenu.put(MenuItem.ZERO_COLA, 1);
         OrderMenuOutputDto orderMenuOutputDto = new OrderMenuOutputDto(orderMenu);
         //when
-        christmasView.outputOrderMenu(orderMenuOutputDto);
+        promotionApplyResultView.outputOrderMenu(orderMenuOutputDto);
         //then
         String expected = """    
                                 
@@ -112,7 +72,7 @@ class ChristmasViewTest {
         int price = 142_000;
         OrderPriceOutputDto orderPriceOutputDto = new OrderPriceOutputDto(Money.valueOf(price));
         //when
-        christmasView.outputOrderPrice(orderPriceOutputDto);
+        promotionApplyResultView.outputOrderPrice(orderPriceOutputDto);
         //then
         String expected = """    
                                 
@@ -128,7 +88,7 @@ class ChristmasViewTest {
         MenuItem giveaway = MenuItem.CHAMPAGNE;
         GiveawayMenuOutputDto giveawayMenuOutputDto = new GiveawayMenuOutputDto(giveaway, 1);
         //when
-        christmasView.outputGiveawayMenu(giveawayMenuOutputDto);
+        promotionApplyResultView.outputGiveawayMenu(giveawayMenuOutputDto);
         //then
         String expected = """
                                 
@@ -148,7 +108,7 @@ class ChristmasViewTest {
         promotionBenefit.put(ChristmasPromotionEvent.GIVEAWAY, Money.valueOf(25000));
         PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
         //when
-        christmasView.outputPromotionBenefitList(promotionBenefitOutputDto);
+        promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
         //then
         String expected = """
                          
@@ -177,7 +137,7 @@ class ChristmasViewTest {
         //given
         BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(Money.valueOf(price));
         //when
-        christmasView.outputBenefitPrice(benefitPriceOutputDto);
+        promotionApplyResultView.outputBenefitPrice(benefitPriceOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
@@ -189,7 +149,7 @@ class ChristmasViewTest {
         BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto = new BenefitAppliedPriceOutputDto(
                 Money.valueOf(price));
         //when
-        christmasView.outputBenefitAppliedPrice(benefitAppliedPriceOutputDto);
+        promotionApplyResultView.outputBenefitAppliedPrice(benefitAppliedPriceOutputDto);
         //then
         String expected = """    
                                 
@@ -214,18 +174,8 @@ class ChristmasViewTest {
         //given
         EventBadgeOutputDto eventBadgeOutputDto = new EventBadgeOutputDto(badge);
         //when
-        christmasView.outputEventBadge(eventBadgeOutputDto);
+        promotionApplyResultView.outputEventBadge(eventBadgeOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(expected);
-    }
-
-    @Test
-    void 에러메시지_출력_테스트() {
-        //given
-        String errorMessage = "에러 발생.";
-        //when
-        christmasView.outputErrorMessage(errorMessage);
-        //then
-        assertThat(writer.getOutput()).isEqualTo(errorMessage + LINE_SEPARATOR);
     }
 }
