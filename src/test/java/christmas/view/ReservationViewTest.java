@@ -14,13 +14,13 @@ class ReservationViewTest {
 
     private final StubReader reader = new StubReader();
     private final StubWriter writer = new StubWriter();
-    private final ReservationView christmasView = new ReservationView(reader, writer);
+    private final ReservationView reservationView = new ReservationView(reader, writer);
 
     @Test
     void 이벤트_플래너_인사_출력_테스트() {
         //given
         //when
-        christmasView.greet();
+        reservationView.greet();
         //then
         assertThat(writer.getOutput()).isEqualTo(GREET_MESSAGE.value + LINE_SEPARATOR);
     }
@@ -31,7 +31,7 @@ class ReservationViewTest {
         String day = "1";
         reader.setInput(day);
         //when
-        String reservationDayInput = christmasView.inputReservationDay();
+        String reservationDayInput = reservationView.inputReservationDay();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_RESERVED_VISIT_DATE_MESSAGE.value + LINE_SEPARATOR);
         assertThat(reservationDayInput).isEqualTo(day);
@@ -43,7 +43,7 @@ class ReservationViewTest {
         String orderMenu = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
         reader.setInput(orderMenu);
         //when
-        String orderMenuInput = christmasView.inputOrderMenu();
+        String orderMenuInput = reservationView.inputOrderMenu();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_ORDER_MENU_MESSAGE.value + LINE_SEPARATOR);
         assertThat(orderMenuInput).isEqualTo(orderMenu);

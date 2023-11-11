@@ -1,7 +1,6 @@
 package christmas.exception;
 
 public enum ErrorMessage {
-    INVALID_LENGTH_INPUT("유효하지 않은 입력 길이입니다."),
     INVALID_NUMERIC_INPUT("숫자로만 입력해주세요."),
     INVALID_DELIMITER_INPUT(",로 구분해주세요."),
     INVALID_DATE("유효하지 않은 날짜입니다. 다시 입력해 주세요."),
@@ -17,22 +16,22 @@ public enum ErrorMessage {
     }
 
     public String getMessage() {
-        return message;
+        return PREFIX + message;
     }
 
     public String getMessage(String arg1) {
-        return PREFIX + message + ": " + arg1;
+        return getMessage() + ": " + arg1;
     }
 
     public String getMessage(int arg1) {
-        return PREFIX + message + ": " + arg1;
+        return getMessage() + ": " + arg1;
     }
 
     public String getMessage(String arg1, String arg2) {
-        return PREFIX + message + ": " + arg1 + ", " + arg2;
+        return getMessage() + ": " + arg1 + ", " + arg2;
     }
 
     public String getMessage(int arg1, int arg2, int arg3) {
-        return PREFIX + message + ": " + arg1 + ", " + arg2 + ", " + arg3;
+        return getMessage() + ": " + arg1 + ", " + arg2 + ", " + arg3;
     }
 }

@@ -1,7 +1,7 @@
 package christmas.domain.base;
 
 public class Money {
-    public static final int ZERO = 0;
+    public static final Money ZERO = Money.valueOf(0);
 
     private final int value;
 
@@ -17,8 +17,20 @@ public class Money {
         return value;
     }
 
-    public boolean isZero(){
-        return this.value == ZERO;
+    public boolean isZero() {
+        return this.equals(ZERO);
+    }
+
+    public Money times(int count) {
+        return Money.valueOf(value * count);
+    }
+
+    public Money add(Money money) {
+        return Money.valueOf(value + money.value);
+    }
+
+    public Money sub(Money money) {
+        return Money.valueOf(value - money.value);
     }
 
     @Override
@@ -38,5 +50,12 @@ public class Money {
     @Override
     public int hashCode() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "value=" + value +
+                '}';
     }
 }

@@ -3,10 +3,12 @@ package christmas.domain.reservation;
 import static christmas.exception.ErrorMessage.INVALID_ORDER;
 import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
 import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
+import static christmas.fixture.ChristmasFixture.calculatePrice;
 import static christmas.fixture.ChristmasFixture.createOrderMenuItem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import christmas.domain.base.Money;
 import christmas.domain.constants.MenuItem;
 import java.util.List;
 import java.util.stream.Stream;
@@ -84,5 +86,22 @@ class OrderMenuTest {
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(INVALID_ORDER.getMessage());
         }
+    }
+
+    @Test
+    void 총메뉴가격을_계산한다() {
+        //given
+        List<OrderMenuItem> orderMenuItems = List.of(
+                createOrderMenuItem(MenuItem.BBQ_RIB, 1),
+                createOrderMenuItem(MenuItem.CHAMPAGNE, 5),
+                createOrderMenuItem(MenuItem.ZERO_COLA, 7));
+        OrderMenu orderMenu = OrderMenu.valueOf(orderMenuItems);
+        //when
+        Money money = orderMenu.calculateTotalPrice();
+        //then
+        Money expected = calculatePrice(
+                List.of(MenuItem.BBQ_RIB, MenuItem.CHAMPAGNE, MenuItem.ZERO_COLA),
+                List.of(1, 5, 7));
+        assertThat(money).isEqualTo(expected);
     }
 }

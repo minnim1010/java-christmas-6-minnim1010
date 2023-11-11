@@ -5,6 +5,7 @@ import static christmas.exception.ErrorMessage.INVALID_ORDER;
 import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
 import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 
+import christmas.domain.base.Money;
 import christmas.domain.constants.MenuItem;
 import java.util.EnumMap;
 import java.util.List;
@@ -48,6 +49,23 @@ public class OrderMenu {
         if (!isWithinOrderMenuTotalCountRange(totalCount)) {
             throw new IllegalArgumentException(INVALID_ORDER_TOTAL_COUNT_RANGE.getMessage(totalCount));
         }
+    }
+
+    public int getMenuItemCount(MenuItem menuItem) {
+        return items.getOrDefault(menuItem, 0);
+    }
+
+    public Money calculateTotalPrice() {
+        int totalPrice = items.entrySet().stream()
+                .map(entry -> calculateMenuItemPrice(entry.getKey(), entry.getValue()))
+                .map(Money::getValue)
+                .mapToInt(Integer::intValue)
+                .sum();
+        return Money.valueOf(totalPrice);
+    }
+
+    private Money calculateMenuItemPrice(MenuItem menuItem, Integer count) {
+        return menuItem.getPrice().times(count);
     }
 
     @Override
