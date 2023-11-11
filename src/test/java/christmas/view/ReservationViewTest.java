@@ -5,8 +5,6 @@ import static christmas.view.constants.NoticeMessage.INPUT_ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.INPUT_RESERVED_VISIT_DATE_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.dto.input.OrderMenuInputDto;
-import christmas.dto.input.ReservationDayInputDto;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
 import org.junit.jupiter.api.Test;
@@ -33,10 +31,10 @@ class ReservationViewTest {
         String day = "1";
         reader.setInput(day);
         //when
-        ReservationDayInputDto reservedVisitDateDto = christmasView.inputReservationDay();
+        String reservationDayInput = christmasView.inputReservationDay();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_RESERVED_VISIT_DATE_MESSAGE.value + LINE_SEPARATOR);
-        assertThat(reservedVisitDateDto.reservationDay()).isEqualTo(day);
+        assertThat(reservationDayInput).isEqualTo(day);
     }
 
     @Test
@@ -45,9 +43,9 @@ class ReservationViewTest {
         String orderMenu = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
         reader.setInput(orderMenu);
         //when
-        OrderMenuInputDto orderMenuInputDto = christmasView.inputOrderMenu();
+        String orderMenuInput = christmasView.inputOrderMenu();
         //then
         assertThat(writer.getOutput()).isEqualTo(INPUT_ORDER_MENU_MESSAGE.value + LINE_SEPARATOR);
-        assertThat(orderMenuInputDto.orderMenu()).isEqualTo(orderMenu);
+        assertThat(orderMenuInput).isEqualTo(orderMenu);
     }
 }

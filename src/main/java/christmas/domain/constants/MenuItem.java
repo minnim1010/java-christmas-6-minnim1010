@@ -1,5 +1,10 @@
 package christmas.domain.constants;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public enum MenuItem {
     MUSHROOM_CREAM_SOUP("양송이수프", 6000, MenuCategory.APPETIZER),
     TAPAS("타파스", 5500, MenuCategory.APPETIZER),
@@ -17,6 +22,8 @@ public enum MenuItem {
     RED_WINE("레드와인", 60000, MenuCategory.BEVERAGE),
     CHAMPAGNE("샴페인", 25000, MenuCategory.BEVERAGE);
 
+    private static final Map<String, MenuItem> nameToMenuItems = Arrays.stream(values())
+            .collect(Collectors.toMap(MenuItem::getName, menuItem -> menuItem));
     private final String name;
     private final int price;
     private final MenuCategory category;
@@ -25,6 +32,14 @@ public enum MenuItem {
         this.name = name;
         this.price = price;
         this.category = category;
+    }
+
+    public static Optional<MenuItem> findByName(String name) {
+        return Optional.ofNullable(nameToMenuItems.get(name));
+    }
+
+    public boolean isBeverage() {
+        return this.category.equals(MenuCategory.BEVERAGE);
     }
 
     public String getName() {
