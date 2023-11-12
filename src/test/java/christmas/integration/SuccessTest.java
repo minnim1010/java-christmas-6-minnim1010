@@ -57,4 +57,11 @@ class SuccessTest extends IntegrationTestConfig {
     void 복합혜택_테스트(String day, String menu, String expected) {
         csvFileSourceTest(day, menu, expected);
     }
+
+    @CsvFileSource(resources = "/SuccessTest/이벤트뱃지부여_테스트.csv",
+            delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)
+    @ParameterizedTest(name = "12월 {0}일 메뉴: {1}")
+    void 이벤트뱃지부여_테스트(String day, String menu, String expected) {
+        csvFileSourceTest(day, menu, expected);
+    }
 }
