@@ -81,7 +81,7 @@ class ParserTest {
                     .hasMessageContaining(INVALID_ORDER.getMessage());
         }
 
-        @ValueSource(strings = {"시저샐러드 1", "티본스테이크", "12345"})
+        @ValueSource(strings = {"시저샐러드 1", "티본스테이크", "12345", "시저샐러드-a", "a-3"})
         @ParameterizedTest
         void 입력값형식과_맞지않는다면_예외가_발생한다(String input) {
             //given

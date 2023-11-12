@@ -16,7 +16,6 @@ import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAG
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
-import christmas.domain.base.Money;
 import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
@@ -60,8 +59,8 @@ public class PromotionApplyResultView {
     }
 
     public void outputTotalOrderPrice(TotalOrderPriceOutputDto totalOrderPriceOutputDto) {
-        Money orderPrice = totalOrderPriceOutputDto.orderPrice();
-        String orderPriceMessage = String.format(PRICE.value, orderPrice.getValue());
+        int orderPrice = totalOrderPriceOutputDto.orderPrice();
+        String orderPriceMessage = String.format(PRICE.value, orderPrice);
         String resultMessage = getResultMessage(TOTAL_ORDER_PRICE_MESSAGE.value, orderPriceMessage);
         writer.writeLine(resultMessage);
     }
@@ -82,40 +81,40 @@ public class PromotionApplyResultView {
     }
 
     public void outputPromotionBenefitList(PromotionBenefitOutputDto promotionBenefitOutputDto) {
-        EnumMap<ChristmasPromotionBenefit, Money> promotionBenefit = promotionBenefitOutputDto.promotionBenefit();
+        EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit = promotionBenefitOutputDto.promotionBenefit();
         String promotionBenefitMessage = getPromotionBenefitMessage(promotionBenefit);
         String resultMessage = getResultMessage(BENEFIT_LIST_MESSAGE.value, promotionBenefitMessage);
         writer.writeLine(resultMessage);
     }
 
-    private String getPromotionBenefitMessage(EnumMap<ChristmasPromotionBenefit, Money> promotionBenefit) {
+    private String getPromotionBenefitMessage(EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit) {
         if (promotionBenefit.isEmpty()) {
             return NOT_APPLICABLE.value;
         }
         return promotionBenefit.entrySet().stream()
                 .map(entry ->
                         String.format(PROMOTION_BENEFIT_ITEM.value,
-                                entry.getKey().getName(), entry.getValue().getValue()))
+                                entry.getKey().getName(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 
     public void outputBenefitPrice(BenefitPriceOutputDto benefitPriceOutputDto) {
-        Money benefitPrice = benefitPriceOutputDto.benefitAppliedPrice();
+        int benefitPrice = benefitPriceOutputDto.benefitAppliedPrice();
         String benefitPriceMessage = getBenefitPriceMessage(DISCOUNT_PRICE.value, benefitPrice);
         String resultMessage = getResultMessage(BENEFIT_PRICE_MESSAGE.value, benefitPriceMessage);
         writer.writeLine(resultMessage);
     }
 
-    private String getBenefitPriceMessage(String benefitPriceFormat, Money benefitPrice) {
-        if (benefitPrice.isZero()) {
+    private String getBenefitPriceMessage(String benefitPriceFormat, int benefitPrice) {
+        if (benefitPrice == 0) {
             return NO_BENEFIT_PRICE.value;
         }
-        return String.format(benefitPriceFormat, benefitPrice.getValue());
+        return String.format(benefitPriceFormat, benefitPrice);
     }
 
     public void outputBenefitAppliedPrice(BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto) {
-        Money benefitAppliedPrice = benefitAppliedPriceOutputDto.benefitAppliedPrice();
-        String orderPriceMessage = String.format(PRICE.value, benefitAppliedPrice.getValue());
+        int benefitAppliedPrice = benefitAppliedPriceOutputDto.benefitAppliedPrice();
+        String orderPriceMessage = String.format(PRICE.value, benefitAppliedPrice);
         String resultMessage = getResultMessage(BENEFIT_APPLIED_PRICE_MESSAGE.value, orderPriceMessage);
         writer.writeLine(resultMessage);
     }

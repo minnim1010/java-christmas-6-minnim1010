@@ -23,8 +23,8 @@ public class ChristmasPromotionApplyService {
                     new EnumMap<>(ChristmasPromotionBenefit.class), Optional.empty());
         }
 
-        EnumMap<ChristmasPromotionBenefit, Money> discountBenefits = (EnumMap<ChristmasPromotionBenefit, Money>) christmasPromotion.applyDiscountBenefit(
-                reservation);
+        EnumMap<ChristmasPromotionBenefit, Money> discountBenefits =
+                (EnumMap<ChristmasPromotionBenefit, Money>) christmasPromotion.applyDiscountBenefit(reservation);
         Optional<MenuItem> giveaway = christmasPromotion.applyGiveawayPolicy(reservation);
         return new PromotionAppliedResult(discountBenefits, giveaway);
     }

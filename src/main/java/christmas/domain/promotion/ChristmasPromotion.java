@@ -21,11 +21,8 @@ import java.util.Optional;
 
 public class ChristmasPromotion {
     private static final int YEAR = 2023;
-    private static final int MONTH = 12;
-    private static final int FIRST_DAY = 1;
-    private static final int LAST_DAY = 31;
-    private static final LocalDate START_DATE = LocalDate.of(YEAR, MONTH, FIRST_DAY);
-    private static final LocalDate END_DATE = LocalDate.of(YEAR, MONTH, LAST_DAY);
+    private static final LocalDate START_DATE = LocalDate.of(YEAR, 12, 1);
+    private static final LocalDate END_DATE = LocalDate.of(YEAR, 12, 31);
     private static final Money REQUIRED_TOTAL_PRICE = Money.valueOf(10_000);
 
     private final List<DiscountPolicy> discountPolicies;
@@ -54,7 +51,9 @@ public class ChristmasPromotion {
                 .filter(discountPolicy -> discountPolicy.isSatisfiedBy(reservation))
                 .forEach(discountPolicy -> {
                     Money discountAmount = discountPolicy.getDiscountAmount(reservation);
-                    discountBenefits.put(ChristmasPromotionBenefit.findByBenefit(discountPolicy), discountAmount);
+                    if (!discountAmount.isZero()) {
+                        discountBenefits.put(ChristmasPromotionBenefit.findByBenefit(discountPolicy), discountAmount);
+                    }
                 });
 
         return discountBenefits;

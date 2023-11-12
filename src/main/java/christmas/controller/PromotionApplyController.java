@@ -19,6 +19,8 @@ import christmas.dto.output.TotalOrderPriceOutputDto;
 import christmas.service.ChristmasPromotionApplyService;
 import christmas.view.PromotionApplyResultView;
 import java.util.EnumMap;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class PromotionApplyController {
     private final PromotionApplyResultView promotionApplyResultView;
@@ -65,7 +67,7 @@ public class PromotionApplyController {
     }
 
     private void printTotalOrderPrice(Money totalPrice) {
-        TotalOrderPriceOutputDto totalOrderPriceOutputDto = new TotalOrderPriceOutputDto(totalPrice);
+        TotalOrderPriceOutputDto totalOrderPriceOutputDto = new TotalOrderPriceOutputDto(totalPrice.getValue());
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
     }
 
@@ -75,27 +77,37 @@ public class PromotionApplyController {
     }
 
     private void printAppliedPromotionBenefits(PromotionAppliedResult promotionAppliedResult) {
-        EnumMap<ChristmasPromotionBenefit, Money> discountBenefits =
-                (EnumMap<ChristmasPromotionBenefit, Money>) promotionAppliedResult.getDiscountBenefits();
-        MenuItem giveaway = promotionAppliedResult.getGiveaway();
-
-        EnumMap<ChristmasPromotionBenefit, Money> clone = discountBenefits.clone();
-        if (giveaway != null) {
-            clone.put(ChristmasPromotionBenefit.GIVEAWAY, giveaway.getPrice());
-        }
-
-        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(clone);
+        EnumMap<ChristmasPromotionBenefit, Integer> convertedDiscountBenefits = convertDiscountBenefits(
+                (EnumMap<ChristmasPromotionBenefit, Money>) promotionAppliedResult.getDiscountBenefits(),
+                promotionAppliedResult.getGiveaway());
+        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(convertedDiscountBenefits);
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
     }
 
+    private EnumMap<ChristmasPromotionBenefit, Integer> convertDiscountBenefits(
+            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, MenuItem giveaway) {
+        EnumMap<ChristmasPromotionBenefit, Integer> convertedDiscountBenefits = discountBenefits.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Entry::getKey,
+                        entry -> entry.getValue().getValue(),
+                        (existing, replacement) -> existing,
+                        () -> new EnumMap<>(ChristmasPromotionBenefit.class)));
+
+        if (giveaway != null) {
+            convertedDiscountBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveaway.getPrice().getValue());
+        }
+        return convertedDiscountBenefits;
+    }
+
     private void printBenefitPrice(Money totalBenefitPrice) {
-        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(totalBenefitPrice);
+        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(totalBenefitPrice.getValue());
         promotionApplyResultView.outputBenefitPrice(benefitPriceOutputDto);
     }
 
     private void printBenefitAppliedPrice(Money totalPrice, Money totalBenefitPrice) {
+        int benefitAppliedPrice = totalPrice.sub(totalBenefitPrice).getValue();
         BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto = new BenefitAppliedPriceOutputDto(
-                totalPrice.sub(totalBenefitPrice));
+                benefitAppliedPrice);
         promotionApplyResultView.outputBenefitAppliedPrice(benefitAppliedPriceOutputDto);
     }
 

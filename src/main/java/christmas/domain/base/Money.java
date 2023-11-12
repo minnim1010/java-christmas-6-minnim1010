@@ -18,7 +18,7 @@ public class Money {
     }
 
     public boolean isZero() {
-        return this.equals(ZERO);
+        return value == 0;
     }
 
     public Money times(int count) {
@@ -30,11 +30,11 @@ public class Money {
     }
 
     public Money sub(Money money) {
-        return Money.valueOf(value - money.value);
-    }
-
-    public boolean isGreaterThan(Money money) {
-        return value > money.value;
+        int amount = value - money.value;
+        if (amount < 0) {
+            amount = 0;
+        }
+        return Money.valueOf(amount);
     }
 
     public boolean isGreaterOrEqual(Money money) {

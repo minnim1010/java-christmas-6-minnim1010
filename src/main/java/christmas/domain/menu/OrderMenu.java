@@ -12,14 +12,18 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class OrderMenu {
     private final EnumMap<MenuItem, Integer> items;
 
     private OrderMenu(List<OrderMenuItem> orderMenuItems) {
-        this.items = new EnumMap<>(MenuItem.class);
-
-        orderMenuItems.forEach(item -> items.put(item.getMenuItem(), item.getCount()));
+        this.items = orderMenuItems.stream()
+                .collect(Collectors.toMap(
+                        OrderMenuItem::getMenuItem,
+                        OrderMenuItem::getCount,
+                        (existing, replacement) -> existing,
+                        () -> new EnumMap<>(MenuItem.class)));
     }
 
     public static OrderMenu valueOf(List<OrderMenuItem> orderMenuItems) {

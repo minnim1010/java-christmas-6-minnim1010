@@ -4,7 +4,6 @@ import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_S
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.base.Money;
 import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
@@ -24,7 +23,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ChristmasPromotionApplyResultViewTest {
+class PromotionApplyResultViewTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private final StubWriter writer = new StubWriter();
@@ -77,7 +76,7 @@ class ChristmasPromotionApplyResultViewTest {
     void 할인전_총주문금액_출력_테스트() {
         //given
         int price = 142_000;
-        TotalOrderPriceOutputDto totalOrderPriceOutputDto = new TotalOrderPriceOutputDto(Money.valueOf(price));
+        TotalOrderPriceOutputDto totalOrderPriceOutputDto = new TotalOrderPriceOutputDto(price);
         //when
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
         //then
@@ -105,7 +104,6 @@ class ChristmasPromotionApplyResultViewTest {
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
 
-
     private static Stream<Arguments> getBenefitPriceArgument() {
         return Stream.of(
                 Arguments.of(31246,
@@ -119,7 +117,7 @@ class ChristmasPromotionApplyResultViewTest {
     @ParameterizedTest
     void 혜택금액_출력_테스트(int price, String expected) {
         //given
-        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(Money.valueOf(price));
+        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(price);
         //when
         promotionApplyResultView.outputBenefitPrice(benefitPriceOutputDto);
         //then
@@ -130,8 +128,7 @@ class ChristmasPromotionApplyResultViewTest {
     void 할인후_예상결제금액_출력_테스트() {
         //given
         int price = 135_754;
-        BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto = new BenefitAppliedPriceOutputDto(
-                Money.valueOf(price));
+        BenefitAppliedPriceOutputDto benefitAppliedPriceOutputDto = new BenefitAppliedPriceOutputDto(price);
         //when
         promotionApplyResultView.outputBenefitAppliedPrice(benefitAppliedPriceOutputDto);
         //then
@@ -146,11 +143,11 @@ class ChristmasPromotionApplyResultViewTest {
     @Test
     void 혜택내역_출력_테스트() {
         //given
-        EnumMap<ChristmasPromotionBenefit, Money> promotionBenefit = new EnumMap<>(ChristmasPromotionBenefit.class);
-        promotionBenefit.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
-        promotionBenefit.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, Money.valueOf(4046));
-        promotionBenefit.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-        promotionBenefit.put(ChristmasPromotionBenefit.GIVEAWAY, Money.valueOf(25000));
+        EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit = new EnumMap<>(ChristmasPromotionBenefit.class);
+        promotionBenefit.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, 1200);
+        promotionBenefit.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, 4046);
+        promotionBenefit.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, 1000);
+        promotionBenefit.put(ChristmasPromotionBenefit.GIVEAWAY, 25000);
         PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
         //when
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
