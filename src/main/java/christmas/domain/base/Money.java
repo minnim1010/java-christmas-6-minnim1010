@@ -33,6 +33,14 @@ public class Money {
         return Money.valueOf(value - money.value);
     }
 
+    public boolean isGreaterThan(Money money) {
+        return value > money.value;
+    }
+
+    public boolean isGreaterOrEqual(Money money) {
+        return value >= money.value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

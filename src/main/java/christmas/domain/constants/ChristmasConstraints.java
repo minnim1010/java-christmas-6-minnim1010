@@ -5,6 +5,7 @@ public class ChristmasConstraints {
     public static final int PROMOTION_MONTH = 12;
     public static final int FIRST_DAY = 1;
     public static final int LAST_DAY = 31;
+    public static final int CHRISTMAS_DAY = 25;
     public static final int MIN_ORDER_MENU_COUNT = 1;
     public static final int MAX_ORDER_MENU_COUNT = 20;
     public static final int MIN_TOTAL_ORDER_MENU_COUNT = 1;
@@ -15,6 +16,10 @@ public class ChristmasConstraints {
 
     public static boolean isPromotionDay(int day) {
         return FIRST_DAY <= day && day <= LAST_DAY;
+    }
+
+    public static boolean isAfterChristmasDay(int day) {
+        return day > CHRISTMAS_DAY;
     }
 
     public static boolean isWithinOrderMenuCountRange(int count) {

@@ -3,6 +3,7 @@ package christmas.domain.reservation;
 import static christmas.exception.ErrorMessage.INVALID_DATE;
 
 import java.time.DateTimeException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class ReservationDate {
@@ -30,6 +31,19 @@ public class ReservationDate {
 
     public int getDay() {
         return date.getDayOfMonth();
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return date.getDayOfWeek();
+    }
+
+    public boolean isSameDay(LocalDate compare) {
+        return date.equals(compare);
+    }
+
+    public boolean isWeekend() {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
     }
 
     @Override

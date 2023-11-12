@@ -6,9 +6,12 @@ import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
 import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 
 import christmas.domain.base.Money;
+import christmas.domain.constants.MenuCategory;
 import christmas.domain.constants.MenuItem;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class OrderMenu {
     private final EnumMap<MenuItem, Integer> items;
@@ -51,10 +54,6 @@ public class OrderMenu {
         }
     }
 
-    public int getMenuItemCount(MenuItem menuItem) {
-        return items.getOrDefault(menuItem, 0);
-    }
-
     public Money calculateTotalPrice() {
         int totalPrice = items.entrySet().stream()
                 .map(entry -> calculateMenuItemPrice(entry.getKey(), entry.getValue()))
@@ -66,6 +65,18 @@ public class OrderMenu {
 
     private Money calculateMenuItemPrice(MenuItem menuItem, Integer count) {
         return menuItem.getPrice().times(count);
+    }
+
+    public int getTotalCountByCategory(MenuCategory category) {
+        return items.entrySet().stream()
+                .filter(entry -> entry.getKey().getCategory().equals(category))
+                .map(Entry::getValue)
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+    public Map<MenuItem, Integer> getItems() {
+        return items;
     }
 
     @Override
