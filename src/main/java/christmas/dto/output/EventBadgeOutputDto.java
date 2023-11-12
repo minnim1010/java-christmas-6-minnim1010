@@ -1,6 +1,6 @@
 package christmas.dto.output;
 
-import christmas.domain.constants.EventBadge;
+import christmas.domain.promotion.constants.EventBadge;
 
 public record EventBadgeOutputDto(EventBadge eventBadge) {
 }

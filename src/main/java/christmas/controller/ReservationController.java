@@ -1,16 +1,16 @@
 package christmas.controller;
 
-import static christmas.domain.constants.ChristmasConstraints.PROMOTION_MONTH;
-import static christmas.domain.constants.ChristmasConstraints.PROMOTION_YEAR;
-
-import christmas.domain.reservation.OrderMenu;
+import christmas.domain.base.ReservationDate;
+import christmas.domain.menu.OrderMenu;
 import christmas.domain.reservation.Reservation;
-import christmas.domain.reservation.ReservationDate;
 import christmas.util.Parser;
 import christmas.view.ErrorView;
 import christmas.view.ReservationView;
 
 public class ReservationController {
+    private static final int YEAR = 2023;
+    private static final int MONTH = 12;
+
     private final ReservationView reservationView;
     private final ErrorView errorView;
 
@@ -35,7 +35,7 @@ public class ReservationController {
             try {
                 String reservationDayInput = reservationView.inputReservationDay();
                 int reservationDay = Parser.parseInt(reservationDayInput);
-                return ReservationDate.valueOf(PROMOTION_YEAR, PROMOTION_MONTH, reservationDay);
+                return ReservationDate.valueOf(YEAR, MONTH, reservationDay);
             } catch (IllegalArgumentException e) {
                 errorView.outputError(e.getMessage());
             }

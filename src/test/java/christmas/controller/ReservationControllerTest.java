@@ -9,7 +9,7 @@ import static christmas.fixture.ChristmasFixture.calculatePrice;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.reservation.Reservation;
 import christmas.exception.ErrorMessage;
 import christmas.stub.StubReader;

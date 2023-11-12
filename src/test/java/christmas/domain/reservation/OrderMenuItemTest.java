@@ -4,7 +4,8 @@ import static christmas.exception.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.OrderMenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
