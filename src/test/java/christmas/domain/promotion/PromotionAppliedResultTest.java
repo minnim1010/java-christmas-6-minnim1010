@@ -3,7 +3,7 @@ package christmas.domain.promotion;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.EnumMap;
 import java.util.Optional;
@@ -24,7 +24,7 @@ class PromotionAppliedResultTest {
             discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
             discountBenefits.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, Money.valueOf(2023));
             discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            Optional<MenuItem> giveaway = Optional.of(MenuItem.CHAMPAGNE);
+            Optional<Menu> giveaway = Optional.of(Menu.CHAMPAGNE);
             //when
             PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveaway);
 
@@ -40,7 +40,7 @@ class PromotionAppliedResultTest {
             discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1400));
             discountBenefits.put(ChristmasPromotionBenefit.WEEKEND_DISCOUNT, Money.valueOf(2023));
             discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            Optional<MenuItem> giveaway = Optional.empty();
+            Optional<Menu> giveaway = Optional.empty();
             //when
             PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveaway);
 

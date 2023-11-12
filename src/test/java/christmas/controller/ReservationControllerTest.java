@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.common.exception.ErrorMessage;
 import christmas.domain.base.Money;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.reservation.Reservation;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
@@ -39,14 +39,14 @@ class ReservationControllerTest {
         //then
         assertThat(reservation.getReservationDate().getDay()).isEqualTo(31);
         assertThat(reservation.getOrderMenu().toString())
-                .contains(MenuItem.CAESAR_SALAD.name(), "13",
-                        MenuItem.BBQ_RIB.name(), "2",
-                        MenuItem.SEAFOOD_PASTA.name(), "1",
-                        MenuItem.CHOCO_CAKE.name(), "3",
-                        MenuItem.RED_WINE.name(), "1");
+                .contains(Menu.CAESAR_SALAD.name(), "13",
+                        Menu.BBQ_RIB.name(), "2",
+                        Menu.SEAFOOD_PASTA.name(), "1",
+                        Menu.CHOCO_CAKE.name(), "3",
+                        Menu.RED_WINE.name(), "1");
         Money expected = calculatePrice(
-                List.of(MenuItem.CAESAR_SALAD, MenuItem.BBQ_RIB, MenuItem.SEAFOOD_PASTA, MenuItem.CHOCO_CAKE,
-                        MenuItem.RED_WINE),
+                List.of(Menu.CAESAR_SALAD, Menu.BBQ_RIB, Menu.SEAFOOD_PASTA, Menu.CHOCO_CAKE,
+                        Menu.RED_WINE),
                 List.of(13, 2, 1, 3, 1));
         assertThat(reservation.getTotalPrice()).isEqualTo(expected);
     }

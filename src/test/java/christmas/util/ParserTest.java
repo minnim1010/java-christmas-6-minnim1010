@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import christmas.domain.menu.OrderMenuItem;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.groups.Tuple;
@@ -93,17 +93,17 @@ class ParserTest {
     }
 
     @Nested
-    class 입력값을_OrderMenuItemList형으로_바꿀시 {
+    class 입력값을_OrderMenuList형으로_바꿀시 {
 
         static Stream<Arguments> getSuccessTestArgument() {
             return Stream.of(
                     Arguments.of("시저샐러드-1,티본스테이크-5",
-                            List.of(Tuple.tuple(MenuItem.CAESAR_SALAD, 1),
-                                    Tuple.tuple(MenuItem.T_BONE_STEAK, 5))),
+                            List.of(Tuple.tuple(Menu.CAESAR_SALAD, 1),
+                                    Tuple.tuple(Menu.T_BONE_STEAK, 5))),
                     Arguments.of("시저샐러드-1,티본스테이크-5,아이스크림-10",
-                            List.of(Tuple.tuple(MenuItem.CAESAR_SALAD, 1),
-                                    Tuple.tuple(MenuItem.T_BONE_STEAK, 5),
-                                    Tuple.tuple(MenuItem.ICE_CREAM, 10)))
+                            List.of(Tuple.tuple(Menu.CAESAR_SALAD, 1),
+                                    Tuple.tuple(Menu.T_BONE_STEAK, 5),
+                                    Tuple.tuple(Menu.ICE_CREAM, 10)))
             );
         }
 

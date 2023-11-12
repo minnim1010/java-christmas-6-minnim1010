@@ -3,7 +3,7 @@ package christmas.controller;
 import christmas.domain.base.Money;
 import christmas.domain.base.ReservationDate;
 import christmas.domain.menu.OrderMenu;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.PromotionAppliedResult;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
@@ -62,7 +62,7 @@ public class PromotionApplyController {
 
     private void printOrderMenu(OrderMenu orderMenu) {
         OrderMenuOutputDto orderMenuOutputDto = new OrderMenuOutputDto(
-                (EnumMap<MenuItem, Integer>) orderMenu.getItems());
+                (EnumMap<Menu, Integer>) orderMenu.getItems());
         promotionApplyResultView.outputOrderMenu(orderMenuOutputDto);
     }
 
@@ -71,7 +71,7 @@ public class PromotionApplyController {
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
     }
 
-    private void printGiveaway(MenuItem giveaway) {
+    private void printGiveaway(Menu giveaway) {
         GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaway, 1);
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
     }
@@ -85,7 +85,7 @@ public class PromotionApplyController {
     }
 
     private EnumMap<ChristmasPromotionBenefit, Integer> convertDiscountBenefits(
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, MenuItem giveaway) {
+            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, Menu giveaway) {
         EnumMap<ChristmasPromotionBenefit, Integer> convertedDiscountBenefits = discountBenefits.entrySet().stream()
                 .collect(Collectors.toMap(
                         Entry::getKey,

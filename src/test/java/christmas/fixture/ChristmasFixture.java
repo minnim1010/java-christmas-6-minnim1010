@@ -4,7 +4,7 @@ import christmas.domain.base.Money;
 import christmas.domain.base.ReservationDate;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.menu.OrderMenuItem;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.reservation.Reservation;
 import christmas.util.Parser;
 import java.util.ArrayList;
@@ -20,15 +20,15 @@ public class ChristmasFixture {
         return ReservationDate.valueOf(year, month, day);
     }
 
-    public static OrderMenuItem createOrderMenuItem(MenuItem menuItem, int count) {
-        return new OrderMenuItem(menuItem, count);
+    public static OrderMenuItem createOrderMenuItem(Menu menu, int count) {
+        return new OrderMenuItem(menu, count);
     }
 
-    public static Money calculatePrice(List<MenuItem> menuItems, List<Integer> counts) {
-        if (menuItems.size() != counts.size()) {
+    public static Money calculatePrice(List<Menu> menus, List<Integer> counts) {
+        if (menus.size() != counts.size()) {
             throw new IllegalArgumentException("메뉴 이름과 메뉴 개수 리스트는 같은 개수여야 합니다.");
         }
-        Iterator<MenuItem> menuItemsIt = menuItems.iterator();
+        Iterator<Menu> menuItemsIt = menus.iterator();
         Iterator<Integer> countsIt = counts.iterator();
 
         Money price = Money.ZERO;
@@ -38,13 +38,13 @@ public class ChristmasFixture {
         return price;
     }
 
-    public static Reservation createReservation(int day, List<MenuItem> menuItems, List<Integer> counts) {
+    public static Reservation createReservation(int day, List<Menu> menus, List<Integer> counts) {
         ReservationDate reservationDate = createReservationDate(2023, 12, day);
 
-        if (menuItems.size() != counts.size()) {
+        if (menus.size() != counts.size()) {
             throw new IllegalArgumentException("메뉴 이름과 메뉴 개수 리스트는 같은 개수여야 합니다.");
         }
-        Iterator<MenuItem> menuItemsIt = menuItems.iterator();
+        Iterator<Menu> menuItemsIt = menus.iterator();
         Iterator<Integer> countsIt = counts.iterator();
 
         List<OrderMenuItem> orderMenuItems = new ArrayList<>();

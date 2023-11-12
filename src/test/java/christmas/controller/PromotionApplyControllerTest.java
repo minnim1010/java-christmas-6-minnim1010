@@ -3,7 +3,7 @@ package christmas.controller;
 import static christmas.fixture.ChristmasFixture.createReservation;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.ChristmasPromotion;
 import christmas.domain.reservation.Reservation;
 import christmas.service.ChristmasPromotionApplyService;
@@ -82,7 +82,7 @@ class PromotionApplyControllerTest {
     void 예시() {
         //given
         Reservation reservation = createReservation(3, List.of(
-                        MenuItem.T_BONE_STEAK, MenuItem.BBQ_RIB, MenuItem.CHOCO_CAKE, MenuItem.ZERO_COLA),
+                        Menu.T_BONE_STEAK, Menu.BBQ_RIB, Menu.CHOCO_CAKE, Menu.ZERO_COLA),
                 List.of(1, 1, 2, 1));
         //when
         promotionApplyController.applyPromotion(reservation);

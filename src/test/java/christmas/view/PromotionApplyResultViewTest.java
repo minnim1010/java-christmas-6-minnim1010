@@ -4,7 +4,7 @@ import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_S
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
@@ -41,11 +41,11 @@ class PromotionApplyResultViewTest {
     @Test
     void 주문한_메뉴_출력_테스트() {
         //given
-        EnumMap<MenuItem, Integer> orderMenu = new EnumMap<>(MenuItem.class);
-        orderMenu.put(MenuItem.T_BONE_STEAK, 1);
-        orderMenu.put(MenuItem.BBQ_RIB, 1);
-        orderMenu.put(MenuItem.CHOCO_CAKE, 2);
-        orderMenu.put(MenuItem.ZERO_COLA, 1);
+        EnumMap<Menu, Integer> orderMenu = new EnumMap<>(Menu.class);
+        orderMenu.put(Menu.T_BONE_STEAK, 1);
+        orderMenu.put(Menu.BBQ_RIB, 1);
+        orderMenu.put(Menu.CHOCO_CAKE, 2);
+        orderMenu.put(Menu.ZERO_COLA, 1);
         OrderMenuOutputDto orderMenuOutputDto = new OrderMenuOutputDto(orderMenu);
         //when
         promotionApplyResultView.outputOrderMenu(orderMenuOutputDto);
@@ -91,7 +91,7 @@ class PromotionApplyResultViewTest {
     @Test
     void 증정메뉴_출력_테스트() {
         //given
-        MenuItem giveaway = MenuItem.CHAMPAGNE;
+        Menu giveaway = Menu.CHAMPAGNE;
         GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaway, 1);
         //when
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);

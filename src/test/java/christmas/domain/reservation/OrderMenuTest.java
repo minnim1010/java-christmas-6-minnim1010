@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import christmas.domain.base.Money;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.menu.OrderMenuItem;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +24,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 @DisplayName("주문 메뉴")
 class OrderMenuTest {
 
+    @Test
+    void 총메뉴가격을_계산한다() {
+        //given
+        List<OrderMenuItem> orderMenuItems = List.of(
+                createOrderMenuItem(Menu.BBQ_RIB, 1),
+                createOrderMenuItem(Menu.CHAMPAGNE, 5),
+                createOrderMenuItem(Menu.ZERO_COLA, 7));
+        OrderMenu orderMenu = OrderMenu.valueOf(orderMenuItems);
+        //when
+        Money money = orderMenu.calculateTotalPrice();
+        //then
+        Money expected = calculatePrice(
+                List.of(Menu.BBQ_RIB, Menu.CHAMPAGNE, Menu.ZERO_COLA),
+                List.of(1, 5, 7));
+        assertThat(money).isEqualTo(expected);
+    }
+
     @Nested
     class 생성_시 {
 
@@ -31,10 +48,10 @@ class OrderMenuTest {
             return Stream.of(
                     Arguments.of(List.of()),
                     Arguments.of(List.of(
-                            createOrderMenuItem(MenuItem.BBQ_RIB, 5),
-                            createOrderMenuItem(MenuItem.CHAMPAGNE, 6),
-                            createOrderMenuItem(MenuItem.ZERO_COLA, 5),
-                            createOrderMenuItem(MenuItem.CHRISTMAS_PASTA, 5)
+                            createOrderMenuItem(Menu.BBQ_RIB, 5),
+                            createOrderMenuItem(Menu.CHAMPAGNE, 6),
+                            createOrderMenuItem(Menu.ZERO_COLA, 5),
+                            createOrderMenuItem(Menu.CHRISTMAS_PASTA, 5)
                     ))
             );
         }
@@ -43,9 +60,9 @@ class OrderMenuTest {
         void 생성한다() {
             //given
             List<OrderMenuItem> orderMenuItems = List.of(
-                    createOrderMenuItem(MenuItem.BBQ_RIB, 1),
-                    createOrderMenuItem(MenuItem.CHAMPAGNE, 5),
-                    createOrderMenuItem(MenuItem.ZERO_COLA, 7));
+                    createOrderMenuItem(Menu.BBQ_RIB, 1),
+                    createOrderMenuItem(Menu.CHAMPAGNE, 5),
+                    createOrderMenuItem(Menu.ZERO_COLA, 7));
             //when
             OrderMenu orderMenu = OrderMenu.valueOf(orderMenuItems);
             //then
@@ -57,9 +74,9 @@ class OrderMenuTest {
         void 음료만_주문했다면_예외가_발생한다() {
             //given
             List<OrderMenuItem> orderMenuItems = List.of(
-                    createOrderMenuItem(MenuItem.CHAMPAGNE, 1),
-                    createOrderMenuItem(MenuItem.RED_WINE, 1),
-                    createOrderMenuItem(MenuItem.ZERO_COLA, 1));
+                    createOrderMenuItem(Menu.CHAMPAGNE, 1),
+                    createOrderMenuItem(Menu.RED_WINE, 1),
+                    createOrderMenuItem(Menu.ZERO_COLA, 1));
             //when then
             assertThatThrownBy(() -> OrderMenu.valueOf(orderMenuItems))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -80,30 +97,13 @@ class OrderMenuTest {
         void 중복된메뉴가_있다면_예외가_발생한다() {
             //given
             List<OrderMenuItem> orderMenuItems = List.of(
-                    createOrderMenuItem(MenuItem.CHOCO_CAKE, 1),
-                    createOrderMenuItem(MenuItem.CHOCO_CAKE, 1),
-                    createOrderMenuItem(MenuItem.ZERO_COLA, 1));
+                    createOrderMenuItem(Menu.CHOCO_CAKE, 1),
+                    createOrderMenuItem(Menu.CHOCO_CAKE, 1),
+                    createOrderMenuItem(Menu.ZERO_COLA, 1));
             //when then
             assertThatThrownBy(() -> OrderMenu.valueOf(orderMenuItems))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(INVALID_ORDER.getMessage());
         }
-    }
-
-    @Test
-    void 총메뉴가격을_계산한다() {
-        //given
-        List<OrderMenuItem> orderMenuItems = List.of(
-                createOrderMenuItem(MenuItem.BBQ_RIB, 1),
-                createOrderMenuItem(MenuItem.CHAMPAGNE, 5),
-                createOrderMenuItem(MenuItem.ZERO_COLA, 7));
-        OrderMenu orderMenu = OrderMenu.valueOf(orderMenuItems);
-        //when
-        Money money = orderMenu.calculateTotalPrice();
-        //then
-        Money expected = calculatePrice(
-                List.of(MenuItem.BBQ_RIB, MenuItem.CHAMPAGNE, MenuItem.ZERO_COLA),
-                List.of(1, 5, 7));
-        assertThat(money).isEqualTo(expected);
     }
 }

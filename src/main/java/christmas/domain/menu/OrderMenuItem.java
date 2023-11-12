@@ -3,26 +3,26 @@ package christmas.domain.menu;
 import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuCountRange;
 
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 
 public class OrderMenuItem {
-    private final MenuItem menuItem;
+    private final Menu menu;
     private final int count;
 
-    public OrderMenuItem(MenuItem menuItem, int count) {
-        this.menuItem = menuItem;
+    public OrderMenuItem(Menu menu, int count) {
+        this.menu = menu;
         this.count = count;
     }
 
     public static OrderMenuItem valueOf(String menuItemName, int count) {
-        MenuItem menuItem = getMenuItem(menuItemName);
+        Menu menu = getMenuItem(menuItemName);
         validateCount(count);
 
-        return new OrderMenuItem(menuItem, count);
+        return new OrderMenuItem(menu, count);
     }
 
-    private static MenuItem getMenuItem(String menuItem) {
-        return MenuItem.findByName(menuItem)
+    private static Menu getMenuItem(String menuItem) {
+        return Menu.findByName(menuItem)
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_ORDER.getMessage(menuItem)));
     }
 
@@ -32,12 +32,12 @@ public class OrderMenuItem {
         }
     }
 
-    public MenuItem getMenuItem() {
-        return menuItem;
+    public Menu getMenuItem() {
+        return menu;
     }
 
     public boolean isBeverage() {
-        return menuItem.isBeverage();
+        return menu.isBeverage();
     }
 
     public int getCount() {
@@ -55,13 +55,13 @@ public class OrderMenuItem {
 
         OrderMenuItem that = (OrderMenuItem) o;
 
-        return menuItem == that.menuItem;
+        return menu == that.menu;
     }
 
     @Override
     public int hashCode() {
-        if (menuItem != null) {
-            return menuItem.hashCode();
+        if (menu != null) {
+            return menu.hashCode();
         }
         return 0;
     }
@@ -69,7 +69,7 @@ public class OrderMenuItem {
     @Override
     public String toString() {
         return "OrderMenuItem{" +
-                "menuItem=" + menuItem +
+                "menuItem=" + menu +
                 ", count=" + count +
                 '}';
     }

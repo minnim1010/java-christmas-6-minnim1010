@@ -1,7 +1,7 @@
 package christmas.dto.output;
 
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import java.util.EnumMap;
 
-public record OrderMenuOutputDto(EnumMap<MenuItem, Integer> orderMenu) {
+public record OrderMenuOutputDto(EnumMap<Menu, Integer> orderMenu) {
 }

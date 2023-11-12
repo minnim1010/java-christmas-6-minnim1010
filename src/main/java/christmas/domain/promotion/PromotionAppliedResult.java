@@ -1,7 +1,7 @@
 package christmas.domain.promotion;
 
 import christmas.domain.base.Money;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.EnumMap;
 import java.util.Map;
@@ -9,12 +9,12 @@ import java.util.Optional;
 
 public class PromotionAppliedResult {
     private final EnumMap<ChristmasPromotionBenefit, Money> discountBenefits;
-    private final MenuItem giveaway;
+    private final Menu giveaway;
     private final Money totalDiscountPrice;
     private final Money totalBenefitPrice;
 
     public PromotionAppliedResult(Map<ChristmasPromotionBenefit, Money> discountBenefits,
-                                  Optional<MenuItem> giveaway) {
+                                  Optional<Menu> giveaway) {
         this.discountBenefits = (EnumMap<ChristmasPromotionBenefit, Money>) discountBenefits;
         this.giveaway = giveaway.orElse(null);
         this.totalDiscountPrice = calculateTotalDiscountPrice(discountBenefits);
@@ -29,7 +29,7 @@ public class PromotionAppliedResult {
         return Money.valueOf(price);
     }
 
-    private Money calculateTotalBenefitPrice(Money totalDiscountPrice, MenuItem giveaway) {
+    private Money calculateTotalBenefitPrice(Money totalDiscountPrice, Menu giveaway) {
         if (giveaway == null) {
             return totalDiscountPrice;
         }
@@ -40,7 +40,7 @@ public class PromotionAppliedResult {
         return discountBenefits;
     }
 
-    public MenuItem getGiveaway() {
+    public Menu getGiveaway() {
         return giveaway;
     }
 

@@ -4,7 +4,7 @@ import static christmas.fixture.ChristmasFixture.createReservation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.ChristmasPromotion;
 import christmas.domain.promotion.PromotionAppliedResult;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
@@ -86,7 +86,7 @@ class ChristmasPromotionApplyServiceTest {
         //when
         PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
         //then
-        assertThat(promotionAppliedResult.getGiveaway()).isEqualTo(MenuItem.CHAMPAGNE);
+        assertThat(promotionAppliedResult.getGiveaway()).isEqualTo(Menu.CHAMPAGNE);
     }
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/이벤트뱃지부여_테스트.csv", delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)

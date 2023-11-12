@@ -6,8 +6,8 @@ import static christmas.common.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuTotalCountRange;
 
 import christmas.domain.base.Money;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.menu.constants.MenuCategory;
-import christmas.domain.menu.constants.MenuItem;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class OrderMenu {
-    private final EnumMap<MenuItem, Integer> items;
+    private final EnumMap<Menu, Integer> items;
 
     private OrderMenu(List<OrderMenuItem> orderMenuItems) {
         this.items = orderMenuItems.stream()
@@ -23,7 +23,7 @@ public class OrderMenu {
                         OrderMenuItem::getMenuItem,
                         OrderMenuItem::getCount,
                         (existing, replacement) -> existing,
-                        () -> new EnumMap<>(MenuItem.class)));
+                        () -> new EnumMap<>(Menu.class)));
     }
 
     public static OrderMenu valueOf(List<OrderMenuItem> orderMenuItems) {
@@ -67,8 +67,8 @@ public class OrderMenu {
         return Money.valueOf(totalPrice);
     }
 
-    private Money calculateMenuItemPrice(MenuItem menuItem, Integer count) {
-        return menuItem.getPrice().times(count);
+    private Money calculateMenuItemPrice(Menu menu, Integer count) {
+        return menu.getPrice().times(count);
     }
 
     public int getTotalCountByCategory(MenuCategory category) {
@@ -79,7 +79,7 @@ public class OrderMenu {
                 .sum();
     }
 
-    public Map<MenuItem, Integer> getItems() {
+    public Map<Menu, Integer> getItems() {
         return items;
     }
 

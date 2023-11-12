@@ -1,7 +1,7 @@
 package christmas.service;
 
 import christmas.domain.base.Money;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.ChristmasPromotion;
 import christmas.domain.promotion.PromotionAppliedResult;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
@@ -25,7 +25,7 @@ public class ChristmasPromotionApplyService {
 
         EnumMap<ChristmasPromotionBenefit, Money> discountBenefits =
                 (EnumMap<ChristmasPromotionBenefit, Money>) christmasPromotion.applyDiscountBenefit(reservation);
-        Optional<MenuItem> giveaway = christmasPromotion.applyGiveawayPolicy(reservation);
+        Optional<Menu> giveaway = christmasPromotion.applyGiveawayPolicy(reservation);
         return new PromotionAppliedResult(discountBenefits, giveaway);
     }
 

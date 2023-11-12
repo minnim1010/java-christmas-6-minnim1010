@@ -16,7 +16,7 @@ import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAG
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
@@ -44,7 +44,7 @@ public class PromotionApplyResultView {
     }
 
     public void outputOrderMenu(OrderMenuOutputDto orderMenuOutputDto) {
-        EnumMap<MenuItem, Integer> orderMenu = orderMenuOutputDto.orderMenu();
+        EnumMap<Menu, Integer> orderMenu = orderMenuOutputDto.orderMenu();
         String orderMenuMessage = orderMenu.entrySet().stream()
                 .map(entry ->
                         String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
@@ -72,7 +72,7 @@ public class PromotionApplyResultView {
     }
 
     private String getGiveawayMessage(GiveawayOutputDto giveawayOutputDto) {
-        MenuItem giveaway = giveawayOutputDto.giveaway();
+        Menu giveaway = giveawayOutputDto.giveaway();
         if (giveaway == null) {
             return NOT_APPLICABLE.value;
         }

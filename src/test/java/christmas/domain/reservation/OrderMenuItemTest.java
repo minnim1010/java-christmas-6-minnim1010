@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import christmas.domain.menu.OrderMenuItem;
-import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.menu.constants.Menu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class OrderMenuItemTest {
             //when
             OrderMenuItem orderMenuItem = OrderMenuItem.valueOf(menuItemName, count);
             //then
-            assertThat(orderMenuItem.getMenuItem()).isEqualTo(MenuItem.MUSHROOM_CREAM_SOUP);
+            assertThat(orderMenuItem.getMenuItem()).isEqualTo(Menu.MUSHROOM_CREAM_SOUP);
             assertThat(orderMenuItem.getCount()).isEqualTo(count);
         }
 
