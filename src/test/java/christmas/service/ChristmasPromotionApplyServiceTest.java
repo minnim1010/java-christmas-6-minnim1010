@@ -27,7 +27,7 @@ class ChristmasPromotionApplyServiceTest {
         PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits()).isEmpty();
-        assertThat(promotionAppliedResult.getGiveaway()).isNull();
+        assertThat(promotionAppliedResult.getGiveawayBenefit()).isEmpty();
     }
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/특별할인_테스트.csv", delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)
@@ -86,7 +86,9 @@ class ChristmasPromotionApplyServiceTest {
         //when
         PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
         //then
-        assertThat(promotionAppliedResult.getGiveaway()).isEqualTo(Menu.CHAMPAGNE);
+        assertThat(promotionAppliedResult.getGiveawayBenefit()).isPresent();
+        assertThat(promotionAppliedResult.getGiveawayBenefit().get().menu()).isEqualTo(Menu.CHAMPAGNE);
+        assertThat(promotionAppliedResult.getGiveawayBenefit().get().count()).isEqualTo(1);
     }
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/이벤트뱃지부여_테스트.csv", delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)

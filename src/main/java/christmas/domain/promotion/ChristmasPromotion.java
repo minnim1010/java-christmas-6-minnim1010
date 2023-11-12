@@ -9,7 +9,7 @@ import christmas.domain.benefit.policy.GiveawayPolicy;
 import christmas.domain.benefit.policy.SpecialDiscountPolicy;
 import christmas.domain.benefit.policy.WeekdayDiscountPolicy;
 import christmas.domain.benefit.policy.WeekendDiscountPolicy;
-import christmas.domain.menu.constants.Menu;
+import christmas.domain.menu.MenuItem;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
@@ -59,7 +59,7 @@ public class ChristmasPromotion {
         return discountBenefits;
     }
 
-    public Optional<Menu> applyGiveawayPolicy(Reservation reservation) {
+    public Optional<MenuItem> applyGiveawayPolicy(Reservation reservation) {
         if (giveawayPolicy.isSatisfiedBy(reservation)) {
             return Optional.of(giveawayPolicy.getGiveaway(reservation));
         }

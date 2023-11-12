@@ -1,6 +1,7 @@
 package christmas.domain.benefit.policy;
 
 import christmas.domain.base.Money;
+import christmas.domain.menu.MenuItem;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.reservation.Reservation;
 
@@ -14,7 +15,7 @@ public class ChampagneGiveawayPolicy implements GiveawayPolicy {
     }
 
     @Override
-    public Menu getGiveaway(Reservation reservation) {
-        return Menu.CHAMPAGNE;
+    public MenuItem getGiveaway(Reservation reservation) {
+        return new MenuItem(Menu.CHAMPAGNE, 1);
     }
 }

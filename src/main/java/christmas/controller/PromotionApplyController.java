@@ -2,6 +2,7 @@ package christmas.controller;
 
 import christmas.domain.base.Money;
 import christmas.domain.base.ReservationDate;
+import christmas.domain.menu.MenuItem;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.PromotionAppliedResult;
@@ -20,6 +21,7 @@ import christmas.service.ChristmasPromotionApplyService;
 import christmas.view.PromotionApplyResultView;
 import java.util.EnumMap;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PromotionApplyController {
@@ -43,7 +45,7 @@ public class PromotionApplyController {
 
         printTotalOrderPrice(reservation.getTotalPrice());
 
-        printGiveaway(promotionAppliedResult.getGiveaway());
+        printGiveaway(promotionAppliedResult.getGiveawayBenefit());
 
         printAppliedPromotionBenefits(promotionAppliedResult);
 
@@ -71,32 +73,44 @@ public class PromotionApplyController {
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
     }
 
-    private void printGiveaway(Menu giveaway) {
-        GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaway, 1);
+    private void printGiveaway(Optional<MenuItem> giveawayBenefit) {
+        GiveawayOutputDto giveawayOutputDto = createGiveawayOutputDto(giveawayBenefit);
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
     }
 
+    private GiveawayOutputDto createGiveawayOutputDto(Optional<MenuItem> giveawayBenefit) {
+        if (giveawayBenefit.isEmpty()) {
+            return new GiveawayOutputDto(null, 0);
+        }
+        MenuItem giveaway = giveawayBenefit.get();
+        return new GiveawayOutputDto(giveaway.menu(), giveaway.count());
+    }
+
     private void printAppliedPromotionBenefits(PromotionAppliedResult promotionAppliedResult) {
-        EnumMap<ChristmasPromotionBenefit, Integer> convertedDiscountBenefits = convertDiscountBenefits(
+        EnumMap<ChristmasPromotionBenefit, Integer> appliedBenefits = getAppliedBenefits(
                 (EnumMap<ChristmasPromotionBenefit, Money>) promotionAppliedResult.getDiscountBenefits(),
-                promotionAppliedResult.getGiveaway());
-        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(convertedDiscountBenefits);
+                promotionAppliedResult.getGiveawayBenefit());
+        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(appliedBenefits);
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
     }
 
-    private EnumMap<ChristmasPromotionBenefit, Integer> convertDiscountBenefits(
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, Menu giveaway) {
-        EnumMap<ChristmasPromotionBenefit, Integer> convertedDiscountBenefits = discountBenefits.entrySet().stream()
+    private EnumMap<ChristmasPromotionBenefit, Integer> getAppliedBenefits(
+            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, Optional<MenuItem> giveawayBenefit) {
+        EnumMap<ChristmasPromotionBenefit, Integer> appliedBenefits = discountBenefits.entrySet().stream()
                 .collect(Collectors.toMap(
                         Entry::getKey,
                         entry -> entry.getValue().getValue(),
                         (existing, replacement) -> existing,
                         () -> new EnumMap<>(ChristmasPromotionBenefit.class)));
 
-        if (giveaway != null) {
-            convertedDiscountBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveaway.getPrice().getValue());
+        if (giveawayBenefit.isEmpty()) {
+            return appliedBenefits;
         }
-        return convertedDiscountBenefits;
+        giveawayBenefit.ifPresent(menuItem -> {
+            Money giveawayBenefitPrice = menuItem.menu().getPrice().times(menuItem.count());
+            appliedBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveawayBenefitPrice.getValue());
+        });
+        return appliedBenefits;
     }
 
     private void printBenefitPrice(Money totalBenefitPrice) {
