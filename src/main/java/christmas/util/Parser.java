@@ -1,8 +1,9 @@
 package christmas.util;
 
-import static christmas.exception.ErrorMessage.INVALID_DELIMITER_INPUT;
-import static christmas.exception.ErrorMessage.INVALID_NUMERIC_INPUT;
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_DATE;
+import static christmas.common.exception.ErrorMessage.INVALID_DELIMITER_INPUT;
+import static christmas.common.exception.ErrorMessage.INVALID_NUMERIC_INPUT;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 
 import christmas.domain.menu.OrderMenuItem;
 import java.util.Arrays;
@@ -20,12 +21,12 @@ public class Parser {
     private Parser() {
     }
 
-    public static int parseInt(String input) {
+    public static int parseDate(String input) {
         try {
             String inputWithoutSpaces = removeSpaces(input);
             return Integer.parseInt(inputWithoutSpaces);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(INVALID_NUMERIC_INPUT.getMessage(input), e);
+            throw new IllegalArgumentException(INVALID_DATE.getMessage(input), e);
         }
     }
 
@@ -39,12 +40,14 @@ public class Parser {
             throw new IllegalArgumentException(INVALID_ORDER.getMessage(input));
         }
 
-        String menuItemName = matcher.group(ORDER_MENU_ITEM_NAME_GROUP_NUMBER);
-        int count = parseInt(matcher.group(ORDER_MENU_ITEM_COUNT_GROUP_NUMBER));
-
-        return OrderMenuItem.valueOf(menuItemName, count);
+        try {
+            String menuItemName = matcher.group(ORDER_MENU_ITEM_NAME_GROUP_NUMBER);
+            int count = Integer.parseInt(matcher.group(ORDER_MENU_ITEM_COUNT_GROUP_NUMBER));
+            return OrderMenuItem.valueOf(menuItemName, count);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(INVALID_NUMERIC_INPUT.getMessage(input));
+        }
     }
-
 
     public static List<OrderMenuItem> parseOrderMenuItemList(String input) {
         try {

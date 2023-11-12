@@ -1,17 +1,16 @@
 package christmas.controller;
 
-import static christmas.exception.ErrorMessage.INVALID_DATE;
-import static christmas.exception.ErrorMessage.INVALID_NUMERIC_INPUT;
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
-import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
-import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
+import static christmas.common.exception.ErrorMessage.INVALID_DATE;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
+import static christmas.common.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 import static christmas.fixture.ChristmasFixture.calculatePrice;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.common.exception.ErrorMessage;
 import christmas.domain.base.Money;
 import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.reservation.Reservation;
-import christmas.exception.ErrorMessage;
 import christmas.stub.StubReader;
 import christmas.stub.StubWriter;
 import christmas.view.ErrorView;
@@ -68,7 +67,7 @@ class ReservationControllerTest {
         @ValueSource(strings = {"a", "ㅏ", "_", "!!!"})
         @ParameterizedTest
         void 방문날짜입력값이_숫자형식이_아닌_경우(String invalidInput) {
-            reinputTest(INVALID_NUMERIC_INPUT, invalidInput, "31", "시저샐러드-1");
+            reinputTest(INVALID_DATE, invalidInput, "31", "시저샐러드-1");
         }
 
         @ValueSource(strings = {"0", "32", "2147483647"})

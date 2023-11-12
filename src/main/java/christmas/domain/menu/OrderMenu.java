@@ -1,9 +1,9 @@
 package christmas.domain.menu;
 
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
+import static christmas.common.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuTotalCountRange;
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
-import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
-import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 
 import christmas.domain.base.Money;
 import christmas.domain.menu.constants.MenuCategory;

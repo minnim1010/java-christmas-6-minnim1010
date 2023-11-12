@@ -1,4 +1,4 @@
-package christmas.exception;
+package christmas.common.exception;
 
 public enum ErrorMessage {
     INVALID_NUMERIC_INPUT("숫자로만 입력해주세요."),

@@ -1,6 +1,6 @@
 package christmas.domain.reservation;
 
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

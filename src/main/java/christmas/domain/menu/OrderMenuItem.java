@@ -1,7 +1,7 @@
 package christmas.domain.menu;
 
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuCountRange;
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
 
 import christmas.domain.menu.constants.MenuItem;
 

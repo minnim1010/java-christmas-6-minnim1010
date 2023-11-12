@@ -1,8 +1,8 @@
 package christmas.domain.reservation;
 
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
-import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
-import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
+import static christmas.common.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 import static christmas.fixture.ChristmasFixture.calculatePrice;
 import static christmas.fixture.ChristmasFixture.createOrderMenuItem;
 import static org.assertj.core.api.Assertions.assertThat;

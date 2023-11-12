@@ -34,7 +34,7 @@ public class ReservationController {
         while (true) {
             try {
                 String reservationDayInput = reservationView.inputReservationDay();
-                int reservationDay = Parser.parseInt(reservationDayInput);
+                int reservationDay = Parser.parseDate(reservationDayInput);
                 return ReservationDate.valueOf(YEAR, MONTH, reservationDay);
             } catch (IllegalArgumentException e) {
                 errorView.outputError(e.getMessage());

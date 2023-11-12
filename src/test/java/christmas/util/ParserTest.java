@@ -1,7 +1,7 @@
 package christmas.util;
 
-import static christmas.exception.ErrorMessage.INVALID_NUMERIC_INPUT;
-import static christmas.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_DATE;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -20,14 +20,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 class ParserTest {
 
     @Nested
-    class 입력값을_int형으로_바꿀시 {
+    class 날짜입력값을_int형으로_바꿀시 {
 
         @ValueSource(strings = {"123", "1", "-1"})
         @ParameterizedTest
         void 성공한다(String input) {
             //given
             //when
-            int result = Parser.parseInt(input);
+            int result = Parser.parseDate(input);
             //then
             assertThat(result).isEqualTo(Integer.parseInt(input));
         }
@@ -37,9 +37,9 @@ class ParserTest {
         void 공백만_존재한다면_예외가_발생한다(String input) {
             //given
             //when then
-            assertThatThrownBy(() -> Parser.parseInt(input))
+            assertThatThrownBy(() -> Parser.parseDate(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining(INVALID_NUMERIC_INPUT.getMessage());
+                    .hasMessageContaining(INVALID_DATE.getMessage());
         }
 
         @ValueSource(strings = {"a1", "1a", "a"})
@@ -47,9 +47,9 @@ class ParserTest {
         void 숫자이외문자가_존재한다면_예외가_발생한다(String input) {
             //given
             //when then
-            assertThatThrownBy(() -> Parser.parseInt(input))
+            assertThatThrownBy(() -> Parser.parseDate(input))
                     .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining(INVALID_NUMERIC_INPUT.getMessage());
+                    .hasMessageContaining(INVALID_DATE.getMessage());
         }
     }
 
