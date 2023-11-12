@@ -1,6 +1,7 @@
 package christmas.domain.promotion;
 
 import christmas.domain.base.Money;
+import christmas.domain.base.ReservationDate;
 import christmas.domain.benefit.policy.ChampagneGiveawayPolicy;
 import christmas.domain.benefit.policy.ChristmasDDayDiscountPolicy;
 import christmas.domain.benefit.policy.DiscountPolicy;
@@ -8,9 +9,11 @@ import christmas.domain.benefit.policy.GiveawayPolicy;
 import christmas.domain.benefit.policy.SpecialDiscountPolicy;
 import christmas.domain.benefit.policy.WeekdayDiscountPolicy;
 import christmas.domain.benefit.policy.WeekendDiscountPolicy;
-import christmas.domain.constants.EventBadge;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
+import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
+import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +24,8 @@ public class ChristmasPromotion {
     private static final int MONTH = 12;
     private static final int FIRST_DAY = 1;
     private static final int LAST_DAY = 31;
-    private static final int CHRISTMAS_DAY = 25;
+    private static final LocalDate START_DATE = LocalDate.of(YEAR, MONTH, FIRST_DAY);
+    private static final LocalDate END_DATE = LocalDate.of(YEAR, MONTH, LAST_DAY);
     private static final Money REQUIRED_TOTAL_PRICE = Money.valueOf(10_000);
 
     private final List<DiscountPolicy> discountPolicies;
@@ -35,7 +39,12 @@ public class ChristmasPromotion {
 
     public boolean isSatisfiedBy(Reservation reservation) {
         Money totalPrice = reservation.getTotalPrice();
-        return totalPrice.isGreaterOrEqual(REQUIRED_TOTAL_PRICE);
+        return isPromotionPeriod(reservation.getReservationDate())
+                && totalPrice.isGreaterOrEqual(REQUIRED_TOTAL_PRICE);
+    }
+
+    private boolean isPromotionPeriod(ReservationDate reservationDate) {
+        return reservationDate.isBetween(START_DATE, END_DATE);
     }
 
     public Map<ChristmasPromotionBenefit, Money> applyDiscountBenefit(Reservation reservation) {

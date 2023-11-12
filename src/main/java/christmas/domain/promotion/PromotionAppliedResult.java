@@ -1,7 +1,8 @@
 package christmas.domain.promotion;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;

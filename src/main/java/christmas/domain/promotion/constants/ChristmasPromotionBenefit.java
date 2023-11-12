@@ -1,4 +1,4 @@
-package christmas.domain.promotion;
+package christmas.domain.promotion.constants;
 
 import christmas.domain.benefit.Benefit;
 import christmas.domain.benefit.policy.ChampagneGiveawayPolicy;

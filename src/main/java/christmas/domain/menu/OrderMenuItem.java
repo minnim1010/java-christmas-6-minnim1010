@@ -1,9 +1,9 @@
-package christmas.domain.reservation;
+package christmas.domain.menu;
 
-import static christmas.domain.constants.ChristmasConstraints.isWithinOrderMenuCountRange;
+import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuCountRange;
 import static christmas.exception.ErrorMessage.INVALID_ORDER;
 
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
 
 public class OrderMenuItem {
     private final MenuItem menuItem;

@@ -1,13 +1,13 @@
-package christmas.domain.reservation;
+package christmas.domain.menu;
 
-import static christmas.domain.constants.ChristmasConstraints.isWithinOrderMenuTotalCountRange;
+import static christmas.domain.menu.constants.OrderMenuConstraints.isWithinOrderMenuTotalCountRange;
 import static christmas.exception.ErrorMessage.INVALID_ORDER;
 import static christmas.exception.ErrorMessage.INVALID_ORDER_TOTAL_COUNT_RANGE;
 import static christmas.exception.ErrorMessage.ORDERED_ONLY_BEVERAGE;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuCategory;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuCategory;
+import christmas.domain.menu.constants.MenuItem;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;

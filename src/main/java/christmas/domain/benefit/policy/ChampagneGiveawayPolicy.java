@@ -1,7 +1,7 @@
 package christmas.domain.benefit.policy;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.reservation.Reservation;
 
 public class ChampagneGiveawayPolicy implements GiveawayPolicy {

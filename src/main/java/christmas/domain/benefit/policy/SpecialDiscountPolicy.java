@@ -1,8 +1,8 @@
 package christmas.domain.benefit.policy;
 
 import christmas.domain.base.Money;
+import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
-import christmas.domain.reservation.ReservationDate;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 

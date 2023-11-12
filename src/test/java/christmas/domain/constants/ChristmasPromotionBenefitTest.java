@@ -8,7 +8,7 @@ import christmas.domain.benefit.policy.ChristmasDDayDiscountPolicy;
 import christmas.domain.benefit.policy.SpecialDiscountPolicy;
 import christmas.domain.benefit.policy.WeekdayDiscountPolicy;
 import christmas.domain.benefit.policy.WeekendDiscountPolicy;
-import christmas.domain.promotion.ChristmasPromotionBenefit;
+import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

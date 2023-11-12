@@ -5,19 +5,18 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.ChristmasPromotionEvent;
-import christmas.domain.constants.EventBadge;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
+import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
+import christmas.domain.promotion.constants.EventBadge;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
 import christmas.dto.output.EventBadgeOutputDto;
-import christmas.dto.output.GiveawayMenuOutputDto;
+import christmas.dto.output.GiveawayOutputDto;
 import christmas.dto.output.OrderMenuOutputDto;
-import christmas.dto.output.OrderPriceOutputDto;
 import christmas.dto.output.PromotionBenefitOutputDto;
-import christmas.dto.output.ReservedVisitDateOutputDto;
+import christmas.dto.output.ReservationDateOutputDto;
+import christmas.dto.output.TotalOrderPriceOutputDto;
 import christmas.stub.StubWriter;
-import java.time.LocalDate;
 import java.util.EnumMap;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -25,22 +24,19 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PromotionApplyResultViewTest {
+class ChristmasPromotionApplyResultViewTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     private final StubWriter writer = new StubWriter();
     private final PromotionApplyResultView promotionApplyResultView = new PromotionApplyResultView(writer);
 
-    @Test
-    void 이벤트혜택_미리보기_시작_출력_테스트() {
-        //given
-        ReservedVisitDateOutputDto reservedVisitDateOutputDto = new ReservedVisitDateOutputDto(
-                LocalDate.of(2023, 12, 1));
-        //when
-        promotionApplyResultView.outputPromotionBenefitPreviewStart(reservedVisitDateOutputDto);
-        //then
-        assertThat(writer.getOutput()).isEqualTo(
-                format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
+    private static Stream<Arguments> getEventBadgeArgument() {
+        return Stream.of(
+                Arguments.of(EventBadge.SANTA,
+                        String.format("%s<12월 이벤트 배지>%s산타%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
+                Arguments.of(EventBadge.NOT_APPLICABLE,
+                        String.format("%s<12월 이벤트 배지>%s없음%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR))
+        );
     }
 
     @Test
@@ -67,12 +63,23 @@ class PromotionApplyResultViewTest {
     }
 
     @Test
+    void 이벤트혜택_미리보기_시작_출력_테스트() {
+        //given
+        ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(12, 1);
+        //when
+        promotionApplyResultView.outputPromotionBenefitPreviewStart(reservationDateOutputDto);
+        //then
+        assertThat(writer.getOutput()).isEqualTo(
+                format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
+    }
+
+    @Test
     void 할인전_총주문금액_출력_테스트() {
         //given
         int price = 142_000;
-        OrderPriceOutputDto orderPriceOutputDto = new OrderPriceOutputDto(Money.valueOf(price));
+        TotalOrderPriceOutputDto totalOrderPriceOutputDto = new TotalOrderPriceOutputDto(Money.valueOf(price));
         //when
-        promotionApplyResultView.outputOrderPrice(orderPriceOutputDto);
+        promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
         //then
         String expected = """    
                                 
@@ -86,37 +93,14 @@ class PromotionApplyResultViewTest {
     void 증정메뉴_출력_테스트() {
         //given
         MenuItem giveaway = MenuItem.CHAMPAGNE;
-        GiveawayMenuOutputDto giveawayMenuOutputDto = new GiveawayMenuOutputDto(giveaway, 1);
+        GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaway, 1);
         //when
-        promotionApplyResultView.outputGiveawayMenu(giveawayMenuOutputDto);
+        promotionApplyResultView.outputGiveaway(giveawayOutputDto);
         //then
         String expected = """
                                 
                 <증정 메뉴>
                 샴페인 1개
-                """;
-        assertThat(writer.getOutput()).isEqualTo(expected);
-    }
-
-    @Test
-    void 혜택내역_출력_테스트() {
-        //given
-        EnumMap<ChristmasPromotionEvent, Money> promotionBenefit = new EnumMap<>(ChristmasPromotionEvent.class);
-        promotionBenefit.put(ChristmasPromotionEvent.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
-        promotionBenefit.put(ChristmasPromotionEvent.WEEKDAY_DISCOUNT, Money.valueOf(4046));
-        promotionBenefit.put(ChristmasPromotionEvent.SPECIAL_DISCOUNT, Money.valueOf(1000));
-        promotionBenefit.put(ChristmasPromotionEvent.GIVEAWAY, Money.valueOf(25000));
-        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
-        //when
-        promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
-        //then
-        String expected = """
-                         
-                <혜택 내역>
-                크리스마스 디데이 할인: -1,200원
-                평일 할인: -4,046원
-                특별 할인: -1,000원
-                증정 이벤트: -25,000원
                 """;
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
@@ -159,13 +143,27 @@ class PromotionApplyResultViewTest {
         assertThat(writer.getOutput()).isEqualTo(expected);
     }
 
-    private static Stream<Arguments> getEventBadgeArgument() {
-        return Stream.of(
-                Arguments.of(EventBadge.SANTA,
-                        String.format("%s<12월 이벤트 배지>%s산타%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
-                Arguments.of(null,
-                        String.format("%s<12월 이벤트 배지>%s없음%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR))
-        );
+    @Test
+    void 혜택내역_출력_테스트() {
+        //given
+        EnumMap<ChristmasPromotionBenefit, Money> promotionBenefit = new EnumMap<>(ChristmasPromotionBenefit.class);
+        promotionBenefit.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
+        promotionBenefit.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, Money.valueOf(4046));
+        promotionBenefit.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
+        promotionBenefit.put(ChristmasPromotionBenefit.GIVEAWAY, Money.valueOf(25000));
+        PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
+        //when
+        promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
+        //then
+        String expected = """
+                         
+                <혜택 내역>
+                크리스마스 디데이 할인: -1,200원
+                평일 할인: -4,046원
+                특별 할인: -1,000원
+                증정 이벤트: -25,000원
+                """;
+        assertThat(writer.getOutput()).isEqualTo(expected);
     }
 
     @MethodSource("getEventBadgeArgument")
@@ -174,7 +172,7 @@ class PromotionApplyResultViewTest {
         //given
         EventBadgeOutputDto eventBadgeOutputDto = new EventBadgeOutputDto(badge);
         //when
-        promotionApplyResultView.outputEventBadge(eventBadgeOutputDto);
+        promotionApplyResultView.outputReceivedEventBadge(eventBadgeOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }

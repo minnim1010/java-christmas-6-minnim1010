@@ -1,10 +1,10 @@
 package christmas.domain.benefit.policy;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuCategory;
-import christmas.domain.reservation.OrderMenu;
+import christmas.domain.base.ReservationDate;
+import christmas.domain.menu.OrderMenu;
+import christmas.domain.menu.constants.MenuCategory;
 import christmas.domain.reservation.Reservation;
-import christmas.domain.reservation.ReservationDate;
 
 public class WeekdayDiscountPolicy implements DiscountPolicy {
     private final Money discountAmountPerDessertMenu;

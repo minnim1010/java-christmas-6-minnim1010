@@ -1,4 +1,4 @@
-package christmas.domain.constants;
+package christmas.domain.promotion.constants;
 
 import christmas.domain.base.Money;
 import java.util.Arrays;

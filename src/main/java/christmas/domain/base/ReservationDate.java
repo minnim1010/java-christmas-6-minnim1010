@@ -1,4 +1,4 @@
-package christmas.domain.reservation;
+package christmas.domain.base;
 
 import static christmas.exception.ErrorMessage.INVALID_DATE;
 
@@ -44,6 +44,10 @@ public class ReservationDate {
     public boolean isWeekend() {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
+    }
+
+    public boolean isBetween(LocalDate startDate, LocalDate endDate) {
+        return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
     @Override

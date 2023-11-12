@@ -9,7 +9,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.OrderMenu;
+import christmas.domain.menu.OrderMenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

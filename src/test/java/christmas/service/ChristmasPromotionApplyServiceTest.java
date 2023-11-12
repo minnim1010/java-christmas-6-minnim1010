@@ -4,11 +4,11 @@ import static christmas.fixture.ChristmasFixture.createReservation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.constants.EventBadge;
-import christmas.domain.constants.MenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import christmas.domain.promotion.ChristmasPromotion;
-import christmas.domain.promotion.ChristmasPromotionBenefit;
 import christmas.domain.promotion.PromotionAppliedResult;
+import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
+import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;

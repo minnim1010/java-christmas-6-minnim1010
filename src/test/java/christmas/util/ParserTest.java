@@ -5,8 +5,8 @@ import static christmas.exception.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.domain.constants.MenuItem;
-import christmas.domain.reservation.OrderMenuItem;
+import christmas.domain.menu.OrderMenuItem;
+import christmas.domain.menu.constants.MenuItem;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.groups.Tuple;

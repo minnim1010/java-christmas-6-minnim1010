@@ -1,6 +1,8 @@
 package christmas.domain.reservation;
 
 import christmas.domain.base.Money;
+import christmas.domain.base.ReservationDate;
+import christmas.domain.menu.OrderMenu;
 
 public class Reservation {
     private final ReservationDate reservationDate;

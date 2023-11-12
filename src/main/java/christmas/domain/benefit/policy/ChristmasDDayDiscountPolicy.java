@@ -1,10 +1,9 @@
 package christmas.domain.benefit.policy;
 
-import static christmas.domain.constants.ChristmasConstraints.isAfterChristmasDay;
-
 import christmas.domain.base.Money;
+import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
-import christmas.domain.reservation.ReservationDate;
+import java.time.LocalDate;
 
 public class ChristmasDDayDiscountPolicy implements DiscountPolicy {
     private final Money baseAmount = Money.valueOf(1_000);
@@ -13,7 +12,7 @@ public class ChristmasDDayDiscountPolicy implements DiscountPolicy {
     @Override
     public boolean isSatisfiedBy(Reservation reservation) {
         ReservationDate reservationDate = reservation.getReservationDate();
-        return !isAfterChristmasDay(reservationDate.getDay());
+        return reservationDate.isBetween(LocalDate.of(2023, 12, 1), LocalDate.of(2023, 12, 25));
     }
 
     @Override

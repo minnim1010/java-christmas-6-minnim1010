@@ -4,7 +4,7 @@ import static christmas.exception.ErrorMessage.INVALID_DELIMITER_INPUT;
 import static christmas.exception.ErrorMessage.INVALID_NUMERIC_INPUT;
 import static christmas.exception.ErrorMessage.INVALID_ORDER;
 
-import christmas.domain.reservation.OrderMenuItem;
+import christmas.domain.menu.OrderMenuItem;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
