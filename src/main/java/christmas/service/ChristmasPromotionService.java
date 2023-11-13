@@ -10,23 +10,23 @@ import christmas.domain.reservation.Reservation;
 import java.util.EnumMap;
 import java.util.Optional;
 
-public class ChristmasPromotionApplyService {
+public class ChristmasPromotionService {
     private final ChristmasPromotion christmasPromotion;
 
-    public ChristmasPromotionApplyService(ChristmasPromotion christmasPromotion) {
+    public ChristmasPromotionService(ChristmasPromotion christmasPromotion) {
         this.christmasPromotion = christmasPromotion;
     }
 
     public PromotionAppliedResult applyPromotion(Reservation reservation) {
         if (!christmasPromotion.isSatisfiedBy(reservation)) {
             return new PromotionAppliedResult(
-                    new EnumMap<>(ChristmasPromotionBenefit.class), Optional.empty());
+                    new EnumMap<>(ChristmasPromotionBenefit.class), null);
         }
 
         EnumMap<ChristmasPromotionBenefit, Money> discountBenefits =
                 (EnumMap<ChristmasPromotionBenefit, Money>) christmasPromotion.applyDiscountBenefit(reservation);
         Optional<MenuItem> giveaway = christmasPromotion.applyGiveawayPolicy(reservation);
-        return new PromotionAppliedResult(discountBenefits, giveaway);
+        return new PromotionAppliedResult(discountBenefits, giveaway.orElse(null));
     }
 
     public EventBadge getEventBadge(Reservation reservation, Money totalBenefitPrice) {

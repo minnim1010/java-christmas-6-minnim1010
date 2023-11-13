@@ -4,7 +4,7 @@ import christmas.controller.MainController;
 import christmas.controller.PromotionApplyController;
 import christmas.controller.ReservationController;
 import christmas.domain.promotion.ChristmasPromotion;
-import christmas.service.ChristmasPromotionApplyService;
+import christmas.service.ChristmasPromotionService;
 import christmas.view.ErrorView;
 import christmas.view.PromotionApplyResultView;
 import christmas.view.ReservationView;
@@ -23,12 +23,12 @@ public class ChristmasConfig {
         PromotionApplyResultView promotionApplyResultView = promotionApplyResultView(writer);
         ErrorView errorView = errorView(writer);
 
-        ChristmasPromotionApplyService christmasPromotionApplyService = christmasPromotionApplyService(
+        ChristmasPromotionService christmasPromotionService = christmasPromotionApplyService(
                 christmasPromotion());
 
         ReservationController reservationController = reservationController(reservationView, errorView);
         PromotionApplyController promotionApplyController = promotionApplyController(promotionApplyResultView,
-                christmasPromotionApplyService);
+                christmasPromotionService);
 
         return new MainController(reservationController, promotionApplyController, errorView);
     }
@@ -57,8 +57,8 @@ public class ChristmasConfig {
         return new ChristmasPromotion();
     }
 
-    private ChristmasPromotionApplyService christmasPromotionApplyService(ChristmasPromotion christmasPromotion) {
-        return new ChristmasPromotionApplyService(christmasPromotion);
+    private ChristmasPromotionService christmasPromotionApplyService(ChristmasPromotion christmasPromotion) {
+        return new ChristmasPromotionService(christmasPromotion);
     }
 
     private ReservationController reservationController(ReservationView reservationView, ErrorView errorView) {
@@ -66,7 +66,7 @@ public class ChristmasConfig {
     }
 
     private PromotionApplyController promotionApplyController(PromotionApplyResultView promotionApplyResultView,
-                                                              ChristmasPromotionApplyService promotionApplyService) {
+                                                              ChristmasPromotionService promotionApplyService) {
         return new PromotionApplyController(promotionApplyResultView, promotionApplyService);
     }
 }

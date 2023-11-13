@@ -17,26 +17,25 @@ import christmas.dto.output.OrderMenuOutputDto;
 import christmas.dto.output.PromotionBenefitOutputDto;
 import christmas.dto.output.ReservationDateOutputDto;
 import christmas.dto.output.TotalOrderPriceOutputDto;
-import christmas.service.ChristmasPromotionApplyService;
+import christmas.service.ChristmasPromotionService;
 import christmas.view.PromotionApplyResultView;
 import java.util.EnumMap;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PromotionApplyController {
     private final PromotionApplyResultView promotionApplyResultView;
-    private final ChristmasPromotionApplyService christmasPromotionApplyService;
+    private final ChristmasPromotionService christmasPromotionService;
 
     public PromotionApplyController(PromotionApplyResultView promotionApplyResultView,
-                                    ChristmasPromotionApplyService christmasPromotionApplyService) {
+                                    ChristmasPromotionService christmasPromotionService) {
         this.promotionApplyResultView = promotionApplyResultView;
-        this.christmasPromotionApplyService = christmasPromotionApplyService;
+        this.christmasPromotionService = christmasPromotionService;
     }
 
     public void applyPromotion(Reservation reservation) {
-        PromotionAppliedResult promotionAppliedResult = christmasPromotionApplyService.applyPromotion(reservation);
-        EventBadge receivedBadge = christmasPromotionApplyService.getEventBadge(reservation,
+        PromotionAppliedResult promotionAppliedResult = christmasPromotionService.applyPromotion(reservation);
+        EventBadge receivedBadge = christmasPromotionService.getEventBadge(reservation,
                 promotionAppliedResult.getTotalBenefitPrice());
 
         printPromotionBenefitPreviewStart(reservation.getReservationDate());
@@ -73,16 +72,15 @@ public class PromotionApplyController {
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
     }
 
-    private void printGiveaway(Optional<MenuItem> giveawayBenefit) {
-        GiveawayOutputDto giveawayOutputDto = createGiveawayOutputDto(giveawayBenefit);
+    private void printGiveaway(MenuItem giveaway) {
+        GiveawayOutputDto giveawayOutputDto = createGiveawayOutputDto(giveaway);
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
     }
 
-    private GiveawayOutputDto createGiveawayOutputDto(Optional<MenuItem> giveawayBenefit) {
-        if (giveawayBenefit.isEmpty()) {
+    private GiveawayOutputDto createGiveawayOutputDto(MenuItem giveaway) {
+        if (giveaway == null) {
             return new GiveawayOutputDto(null, 0);
         }
-        MenuItem giveaway = giveawayBenefit.get();
         return new GiveawayOutputDto(giveaway.menu(), giveaway.count());
     }
 
@@ -95,7 +93,7 @@ public class PromotionApplyController {
     }
 
     private EnumMap<ChristmasPromotionBenefit, Integer> getAppliedBenefits(
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, Optional<MenuItem> giveawayBenefit) {
+            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, MenuItem giveawayBenefit) {
         EnumMap<ChristmasPromotionBenefit, Integer> appliedBenefits = discountBenefits.entrySet().stream()
                 .collect(Collectors.toMap(
                         Entry::getKey,
@@ -103,13 +101,12 @@ public class PromotionApplyController {
                         (existing, replacement) -> existing,
                         () -> new EnumMap<>(ChristmasPromotionBenefit.class)));
 
-        if (giveawayBenefit.isEmpty()) {
+        if (giveawayBenefit == null) {
             return appliedBenefits;
         }
-        giveawayBenefit.ifPresent(menuItem -> {
-            Money giveawayBenefitPrice = menuItem.menu().getPrice().times(menuItem.count());
-            appliedBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveawayBenefitPrice.getValue());
-        });
+        Money giveawayBenefitPrice = giveawayBenefit.menu().getPrice().times(giveawayBenefit.count());
+        appliedBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveawayBenefitPrice.getValue());
+
         return appliedBenefits;
     }
 

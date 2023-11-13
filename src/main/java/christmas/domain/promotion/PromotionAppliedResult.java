@@ -5,16 +5,15 @@ import christmas.domain.menu.MenuItem;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class PromotionAppliedResult {
     private final EnumMap<ChristmasPromotionBenefit, Money> discountBenefits;
-    private final Optional<MenuItem> giveawayBenefit;
+    private final MenuItem giveawayBenefit;
     private final Money totalDiscountPrice;
     private final Money totalBenefitPrice;
 
     public PromotionAppliedResult(Map<ChristmasPromotionBenefit, Money> discountBenefits,
-                                  Optional<MenuItem> giveawayBenefit) {
+                                  MenuItem giveawayBenefit) {
         this.discountBenefits = (EnumMap<ChristmasPromotionBenefit, Money>) discountBenefits;
         this.giveawayBenefit = giveawayBenefit;
         this.totalDiscountPrice = calculateTotalDiscountPrice(discountBenefits);
@@ -30,19 +29,18 @@ public class PromotionAppliedResult {
     }
 
     private Money calculateTotalBenefitPrice(Money totalDiscountPrice) {
-        if (giveawayBenefit.isEmpty()) {
+        if (giveawayBenefit == null) {
             return totalDiscountPrice;
         }
 
-        MenuItem menuItem = giveawayBenefit.get();
-        return totalDiscountPrice.add(menuItem.menu().getPrice().times(menuItem.count()));
+        return totalDiscountPrice.add(giveawayBenefit.menu().getPrice().times(giveawayBenefit.count()));
     }
 
     public Map<ChristmasPromotionBenefit, Money> getDiscountBenefits() {
         return discountBenefits;
     }
 
-    public Optional<MenuItem> getGiveawayBenefit() {
+    public MenuItem getGiveawayBenefit() {
         return giveawayBenefit;
     }
 

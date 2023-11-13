@@ -7,7 +7,6 @@ import christmas.domain.menu.MenuItem;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import java.util.EnumMap;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ class PromotionAppliedResultTest {
             discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
             discountBenefits.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, Money.valueOf(2023));
             discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            Optional<MenuItem> giveawayBenefit = Optional.of(new MenuItem(Menu.CHAMPAGNE, 1));
+            MenuItem giveawayBenefit = new MenuItem(Menu.CHAMPAGNE, 1);
             //when
             PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefit);
             //then
@@ -40,7 +39,7 @@ class PromotionAppliedResultTest {
             discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1400));
             discountBenefits.put(ChristmasPromotionBenefit.WEEKEND_DISCOUNT, Money.valueOf(2023));
             discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            Optional<MenuItem> giveawayBenefit = Optional.empty();
+            MenuItem giveawayBenefit = null;
             //when
             PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefit);
             //then

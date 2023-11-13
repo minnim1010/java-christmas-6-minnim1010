@@ -13,9 +13,9 @@ import christmas.domain.reservation.Reservation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
-class ChristmasPromotionApplyServiceTest {
+class ChristmasPromotionServiceTest {
     private final ChristmasPromotion christmasPromotion = new ChristmasPromotion();
-    private final ChristmasPromotionApplyService service = new ChristmasPromotionApplyService(christmasPromotion);
+    private final ChristmasPromotionService service = new ChristmasPromotionService(christmasPromotion);
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/프로모션_적용최소금액미만_테스트.csv",
             delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)
@@ -27,7 +27,7 @@ class ChristmasPromotionApplyServiceTest {
         PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits()).isEmpty();
-        assertThat(promotionAppliedResult.getGiveawayBenefit()).isEmpty();
+        assertThat(promotionAppliedResult.getGiveawayBenefit()).isNull();
     }
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/특별할인_테스트.csv", delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)
@@ -86,9 +86,9 @@ class ChristmasPromotionApplyServiceTest {
         //when
         PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
         //then
-        assertThat(promotionAppliedResult.getGiveawayBenefit()).isPresent();
-        assertThat(promotionAppliedResult.getGiveawayBenefit().get().menu()).isEqualTo(Menu.CHAMPAGNE);
-        assertThat(promotionAppliedResult.getGiveawayBenefit().get().count()).isEqualTo(1);
+        assertThat(promotionAppliedResult.getGiveawayBenefit()).isNotNull();
+        assertThat(promotionAppliedResult.getGiveawayBenefit().menu()).isEqualTo(Menu.CHAMPAGNE);
+        assertThat(promotionAppliedResult.getGiveawayBenefit().count()).isEqualTo(1);
     }
 
     @CsvFileSource(resources = "/ChristmasPromotionApplyServiceTest/이벤트뱃지부여_테스트.csv", delimiter = ';', lineSeparator = "/", numLinesToSkip = 1)

@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.ChristmasPromotion;
 import christmas.domain.reservation.Reservation;
-import christmas.service.ChristmasPromotionApplyService;
+import christmas.service.ChristmasPromotionService;
 import christmas.stub.StubWriter;
 import christmas.view.PromotionApplyResultView;
 import java.util.List;
@@ -21,11 +21,11 @@ class PromotionApplyControllerTest {
     private final PromotionApplyResultView promotionApplyResultView = new PromotionApplyResultView(writer);
 
     private final ChristmasPromotion christmasPromotion = new ChristmasPromotion();
-    private final ChristmasPromotionApplyService christmasPromotionApplyService = new ChristmasPromotionApplyService(
+    private final ChristmasPromotionService christmasPromotionService = new ChristmasPromotionService(
             christmasPromotion);
 
     private final PromotionApplyController promotionApplyController = new PromotionApplyController(
-            promotionApplyResultView, christmasPromotionApplyService);
+            promotionApplyResultView, christmasPromotionService);
 
     private void csvFileSourceTest(int day, String menu, String expected) {
         //given
