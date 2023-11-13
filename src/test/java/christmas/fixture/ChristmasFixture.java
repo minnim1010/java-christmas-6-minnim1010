@@ -39,11 +39,10 @@ public class ChristmasFixture {
     }
 
     public static Reservation createReservation(int day, List<Menu> menus, List<Integer> counts) {
-        ReservationDate reservationDate = createReservationDate(2023, 12, day);
-
         if (menus.size() != counts.size()) {
             throw new IllegalArgumentException("메뉴 이름과 메뉴 개수 리스트는 같은 개수여야 합니다.");
         }
+
         Iterator<Menu> menuItemsIt = menus.iterator();
         Iterator<Integer> countsIt = counts.iterator();
 
@@ -53,6 +52,7 @@ public class ChristmasFixture {
         }
         OrderMenu orderMenu = OrderMenu.valueOf(orderMenuItems);
 
+        ReservationDate reservationDate = createReservationDate(2023, 12, day);
         return Reservation.valueOf(reservationDate, orderMenu);
     }
 

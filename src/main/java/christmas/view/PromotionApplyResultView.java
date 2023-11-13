@@ -18,8 +18,8 @@ import static christmas.view.constants.NoticeMessage.ZERO_AMOUNT;
 
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.EventBadge;
+import christmas.dto.BenefitAmountOutputDto;
 import christmas.dto.BenefitAppliedPriceOutputDto;
-import christmas.dto.BenefitPriceOutputDto;
 import christmas.dto.EventBadgeOutputDto;
 import christmas.dto.GiveawayOutputDto;
 import christmas.dto.OrderMenuOutputDto;
@@ -97,8 +97,8 @@ public class PromotionApplyResultView {
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 
-    public void outputBenefitPrice(BenefitPriceOutputDto benefitPriceOutputDto) {
-        int benefitPrice = benefitPriceOutputDto.benefitAppliedPrice();
+    public void outputBenefitAmount(BenefitAmountOutputDto benefitAmountOutputDto) {
+        int benefitPrice = benefitAmountOutputDto.benefitAppliedPrice();
         String benefitPriceMessage = getBenefitPriceMessage(DISCOUNT_PRICE.value, benefitPrice);
         String resultMessage = getResultMessage(BENEFIT_PRICE_MESSAGE.value, benefitPriceMessage);
         writer.writeLine(resultMessage);

@@ -24,7 +24,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits()).isEmpty();
         assertThat(promotionAppliedResult.getGiveawayBenefits()).isEmpty();
@@ -36,7 +36,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits())
                 .containsKey("특별 할인");
@@ -48,7 +48,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits())
                 .containsKey("평일 할인");
@@ -60,7 +60,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits())
                 .containsKey("주말 할인");
@@ -72,7 +72,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getDiscountBenefits())
                 .containsKey("크리스마스 디데이 할인");
@@ -84,7 +84,7 @@ class ChristmasPromotionServiceTest {
         //given
         Reservation reservation = createReservation(day, menu);
         //when
-        PromotionAppliedResult promotionAppliedResult = service.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = service.apply(reservation);
         //then
         assertThat(promotionAppliedResult.getGiveawayBenefits()).hasSize(1)
                 .containsEntry("증정 이벤트", new MenuItem(Menu.CHAMPAGNE, 1));

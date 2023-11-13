@@ -8,8 +8,8 @@ import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.PromotionAppliedResult;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
+import christmas.dto.BenefitAmountOutputDto;
 import christmas.dto.BenefitAppliedPriceOutputDto;
-import christmas.dto.BenefitPriceOutputDto;
 import christmas.dto.EventBadgeOutputDto;
 import christmas.dto.GiveawayOutputDto;
 import christmas.dto.OrderMenuOutputDto;
@@ -35,21 +35,21 @@ public class PromotionApplyController {
     }
 
     public void applyPromotion(Reservation reservation) {
-        PromotionAppliedResult promotionAppliedResult = christmasPromotionService.applyPromotion(reservation);
+        PromotionAppliedResult promotionAppliedResult = christmasPromotionService.apply(reservation);
         EventBadge receivedBadge = christmasPromotionService.getEventBadge(reservation,
                 promotionAppliedResult.getTotalBenefitPrice());
 
-        printPromotionBenefitPreviewStart(reservation.getReservationDate());
+        printBenefitPreviewStart(reservation.getReservationDate());
         printOrderMenu(reservation.getOrderMenu());
         printTotalOrderPrice(reservation.getTotalPrice());
         printGiveaway(promotionAppliedResult.getGiveawayBenefits());
-        printAppliedPromotionBenefits(promotionAppliedResult);
-        printBenefitPrice(promotionAppliedResult.getTotalBenefitPrice());
+        printAppliedBenefits(promotionAppliedResult);
+        printBenefitAmount(promotionAppliedResult.getTotalBenefitPrice());
         printBenefitAppliedPrice(reservation.getTotalPrice(), promotionAppliedResult.getTotalDiscountPrice());
         printReceivedEventBadge(receivedBadge);
     }
 
-    private void printPromotionBenefitPreviewStart(ReservationDate reservationDate) {
+    private void printBenefitPreviewStart(ReservationDate reservationDate) {
         ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(reservationDate.getDay());
         promotionApplyResultView.outputPromotionBenefitPreviewStart(reservationDateOutputDto);
     }
@@ -77,7 +77,7 @@ public class PromotionApplyController {
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
     }
 
-    private void printAppliedPromotionBenefits(PromotionAppliedResult promotionAppliedResult) {
+    private void printAppliedBenefits(PromotionAppliedResult promotionAppliedResult) {
         Map<String, Integer> appliedBenefits = getAppliedBenefits(promotionAppliedResult);
         PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(appliedBenefits);
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
@@ -98,9 +98,9 @@ public class PromotionApplyController {
         return appliedBenefits;
     }
 
-    private void printBenefitPrice(Money totalBenefitPrice) {
-        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(totalBenefitPrice.getValue());
-        promotionApplyResultView.outputBenefitPrice(benefitPriceOutputDto);
+    private void printBenefitAmount(Money totalBenefitAmount) {
+        BenefitAmountOutputDto benefitAmountOutputDto = new BenefitAmountOutputDto(totalBenefitAmount.getValue());
+        promotionApplyResultView.outputBenefitAmount(benefitAmountOutputDto);
     }
 
     private void printBenefitAppliedPrice(Money totalPrice, Money totalBenefitPrice) {

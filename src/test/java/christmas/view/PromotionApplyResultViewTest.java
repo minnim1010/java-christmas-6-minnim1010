@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.EventBadge;
+import christmas.dto.BenefitAmountOutputDto;
 import christmas.dto.BenefitAppliedPriceOutputDto;
-import christmas.dto.BenefitPriceOutputDto;
 import christmas.dto.EventBadgeOutputDto;
 import christmas.dto.GiveawayOutputDto;
 import christmas.dto.OrderMenuOutputDto;
@@ -119,9 +119,9 @@ class PromotionApplyResultViewTest {
     @ParameterizedTest
     void 혜택금액_출력_테스트(int price, String expected) {
         //given
-        BenefitPriceOutputDto benefitPriceOutputDto = new BenefitPriceOutputDto(price);
+        BenefitAmountOutputDto benefitAmountOutputDto = new BenefitAmountOutputDto(price);
         //when
-        promotionApplyResultView.outputBenefitPrice(benefitPriceOutputDto);
+        promotionApplyResultView.outputBenefitAmount(benefitAmountOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(expected);
     }

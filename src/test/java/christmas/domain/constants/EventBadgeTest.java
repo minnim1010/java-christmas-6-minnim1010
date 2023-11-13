@@ -14,8 +14,11 @@ class EventBadgeTest {
     static Stream<Arguments> getFindReceivableBadgeArgument() {
         return Stream.of(
                 Arguments.of(1000, EventBadge.NOT_APPLICABLE),
+                Arguments.of(4999, EventBadge.NOT_APPLICABLE),
                 Arguments.of(5000, EventBadge.STAR),
+                Arguments.of(9999, EventBadge.STAR),
                 Arguments.of(10000, EventBadge.TREE),
+                Arguments.of(19999, EventBadge.TREE),
                 Arguments.of(20000, EventBadge.SANTA)
         );
     }

@@ -16,7 +16,7 @@ public class ChristmasPromotionService {
         this.christmasPromotion = christmasPromotion;
     }
 
-    public PromotionAppliedResult applyPromotion(Reservation reservation) {
+    public PromotionAppliedResult apply(Reservation reservation) {
         if (!christmasPromotion.isSatisfiedBy(reservation)) {
             return new PromotionAppliedResult(
                     Collections.emptyMap(), Collections.emptyMap());
