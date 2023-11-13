@@ -6,7 +6,6 @@ import christmas.domain.menu.MenuItem;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.PromotionAppliedResult;
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
@@ -20,6 +19,8 @@ import christmas.dto.output.TotalOrderPriceOutputDto;
 import christmas.service.ChristmasPromotionService;
 import christmas.view.PromotionApplyResultView;
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,7 @@ public class PromotionApplyController {
 
         printTotalOrderPrice(reservation.getTotalPrice());
 
-        printGiveaway(promotionAppliedResult.getGiveawayBenefit());
+        printGiveaway(promotionAppliedResult.getGiveawayBenefits());
 
         printAppliedPromotionBenefits(promotionAppliedResult);
 
@@ -72,41 +73,36 @@ public class PromotionApplyController {
         promotionApplyResultView.outputTotalOrderPrice(totalOrderPriceOutputDto);
     }
 
-    private void printGiveaway(MenuItem giveaway) {
-        GiveawayOutputDto giveawayOutputDto = createGiveawayOutputDto(giveaway);
+    private void printGiveaway(Map<String, MenuItem> giveawayBenefits) {
+        LinkedHashMap<Menu, Integer> giveaways = giveawayBenefits.values().stream()
+                .collect(Collectors.toMap(
+                        MenuItem::menu,
+                        MenuItem::count,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new));
+
+        GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaways);
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
     }
 
-    private GiveawayOutputDto createGiveawayOutputDto(MenuItem giveaway) {
-        if (giveaway == null) {
-            return new GiveawayOutputDto(null, 0);
-        }
-        return new GiveawayOutputDto(giveaway.menu(), giveaway.count());
-    }
-
     private void printAppliedPromotionBenefits(PromotionAppliedResult promotionAppliedResult) {
-        EnumMap<ChristmasPromotionBenefit, Integer> appliedBenefits = getAppliedBenefits(
-                (EnumMap<ChristmasPromotionBenefit, Money>) promotionAppliedResult.getDiscountBenefits(),
-                promotionAppliedResult.getGiveawayBenefit());
+        Map<String, Integer> appliedBenefits = getAppliedBenefits(promotionAppliedResult);
         PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(appliedBenefits);
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);
     }
 
-    private EnumMap<ChristmasPromotionBenefit, Integer> getAppliedBenefits(
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits, MenuItem giveawayBenefit) {
-        EnumMap<ChristmasPromotionBenefit, Integer> appliedBenefits = discountBenefits.entrySet().stream()
+    private Map<String, Integer> getAppliedBenefits(PromotionAppliedResult promotionAppliedResult) {
+        Map<String, Money> discountBenefits = promotionAppliedResult.getDiscountBenefits();
+        Map<String, MenuItem> giveawayBenefits = promotionAppliedResult.getGiveawayBenefits();
+
+        Map<String, Integer> appliedBenefits = discountBenefits.entrySet().stream()
                 .collect(Collectors.toMap(
                         Entry::getKey,
                         entry -> entry.getValue().getValue(),
                         (existing, replacement) -> existing,
-                        () -> new EnumMap<>(ChristmasPromotionBenefit.class)));
+                        LinkedHashMap::new));
 
-        if (giveawayBenefit == null) {
-            return appliedBenefits;
-        }
-        Money giveawayBenefitPrice = giveawayBenefit.menu().getPrice().times(giveawayBenefit.count());
-        appliedBenefits.put(ChristmasPromotionBenefit.GIVEAWAY, giveawayBenefitPrice.getValue());
-
+        giveawayBenefits.forEach((key, value) -> appliedBenefits.put(key, value.menu().getPrice().getValue()));
         return appliedBenefits;
     }
 

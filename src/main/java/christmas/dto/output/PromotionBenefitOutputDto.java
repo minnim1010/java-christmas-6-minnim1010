@@ -1,7 +1,6 @@
 package christmas.dto.output;
 
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
-import java.util.EnumMap;
+import java.util.Map;
 
-public record PromotionBenefitOutputDto(EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit) {
+public record PromotionBenefitOutputDto(Map<String, Integer> promotionBenefit) {
 }

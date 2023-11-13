@@ -5,7 +5,6 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.menu.constants.Menu;
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
@@ -17,6 +16,8 @@ import christmas.dto.output.ReservationDateOutputDto;
 import christmas.dto.output.TotalOrderPriceOutputDto;
 import christmas.stub.StubWriter;
 import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -91,8 +92,9 @@ class PromotionApplyResultViewTest {
     @Test
     void 증정메뉴_출력_테스트() {
         //given
-        Menu giveaway = Menu.CHAMPAGNE;
-        GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaway, 1);
+        Map<Menu, Integer> giveaways = new LinkedHashMap<>();
+        giveaways.put(Menu.CHAMPAGNE, 1);
+        GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaways);
         //when
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);
         //then
@@ -143,11 +145,11 @@ class PromotionApplyResultViewTest {
     @Test
     void 혜택내역_출력_테스트() {
         //given
-        EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit = new EnumMap<>(ChristmasPromotionBenefit.class);
-        promotionBenefit.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, 1200);
-        promotionBenefit.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, 4046);
-        promotionBenefit.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, 1000);
-        promotionBenefit.put(ChristmasPromotionBenefit.GIVEAWAY, 25000);
+        Map<String, Integer> promotionBenefit = new LinkedHashMap<>();
+        promotionBenefit.put("크리스마스 디데이 할인", 1200);
+        promotionBenefit.put("평일 할인", 4046);
+        promotionBenefit.put("특별 할인", 1000);
+        promotionBenefit.put("증정 이벤트", 25000);
         PromotionBenefitOutputDto promotionBenefitOutputDto = new PromotionBenefitOutputDto(promotionBenefit);
         //when
         promotionApplyResultView.outputPromotionBenefitList(promotionBenefitOutputDto);

@@ -2,25 +2,23 @@ package christmas.domain.promotion;
 
 import christmas.domain.base.Money;
 import christmas.domain.menu.MenuItem;
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
-import java.util.EnumMap;
 import java.util.Map;
 
 public class PromotionAppliedResult {
-    private final EnumMap<ChristmasPromotionBenefit, Money> discountBenefits;
-    private final MenuItem giveawayBenefit;
+    private final Map<String, Money> discountBenefits;
+    private final Map<String, MenuItem> giveawayBenefits;
     private final Money totalDiscountPrice;
     private final Money totalBenefitPrice;
 
-    public PromotionAppliedResult(Map<ChristmasPromotionBenefit, Money> discountBenefits,
-                                  MenuItem giveawayBenefit) {
-        this.discountBenefits = (EnumMap<ChristmasPromotionBenefit, Money>) discountBenefits;
-        this.giveawayBenefit = giveawayBenefit;
+    public PromotionAppliedResult(Map<String, Money> discountBenefits,
+                                  Map<String, MenuItem> giveawayBenefits) {
+        this.discountBenefits = discountBenefits;
+        this.giveawayBenefits = giveawayBenefits;
         this.totalDiscountPrice = calculateTotalDiscountPrice(discountBenefits);
         this.totalBenefitPrice = calculateTotalBenefitPrice(totalDiscountPrice);
     }
 
-    private Money calculateTotalDiscountPrice(Map<ChristmasPromotionBenefit, Money> discountBenefits) {
+    private Money calculateTotalDiscountPrice(Map<String, Money> discountBenefits) {
         int price = discountBenefits.values().stream()
                 .map(Money::getValue)
                 .mapToInt(Integer::intValue)
@@ -29,19 +27,23 @@ public class PromotionAppliedResult {
     }
 
     private Money calculateTotalBenefitPrice(Money totalDiscountPrice) {
-        if (giveawayBenefit == null) {
+        if (giveawayBenefits == null) {
             return totalDiscountPrice;
         }
 
-        return totalDiscountPrice.add(giveawayBenefit.menu().getPrice().times(giveawayBenefit.count()));
+        int giveawayBenefitsAmount = giveawayBenefits.values().stream()
+                .map(menuItem -> menuItem.menu().getPrice().times(menuItem.count()).getValue())
+                .mapToInt(Integer::intValue)
+                .sum();
+        return totalDiscountPrice.add(Money.valueOf(giveawayBenefitsAmount));
     }
 
-    public Map<ChristmasPromotionBenefit, Money> getDiscountBenefits() {
+    public Map<String, Money> getDiscountBenefits() {
         return discountBenefits;
     }
 
-    public MenuItem getGiveawayBenefit() {
-        return giveawayBenefit;
+    public Map<String, MenuItem> getGiveawayBenefits() {
+        return giveawayBenefits;
     }
 
     public Money getTotalDiscountPrice() {

@@ -17,7 +17,6 @@ import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_S
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
 
 import christmas.domain.menu.constants.Menu;
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.dto.output.BenefitAppliedPriceOutputDto;
 import christmas.dto.output.BenefitPriceOutputDto;
@@ -29,6 +28,7 @@ import christmas.dto.output.ReservationDateOutputDto;
 import christmas.dto.output.TotalOrderPriceOutputDto;
 import christmas.view.io.writer.Writer;
 import java.util.EnumMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PromotionApplyResultView {
@@ -72,29 +72,32 @@ public class PromotionApplyResultView {
     }
 
     private String getGiveawayMessage(GiveawayOutputDto giveawayOutputDto) {
-        Menu giveaway = giveawayOutputDto.giveaway();
-        if (giveaway == null) {
+        Map<Menu, Integer> giveaways = giveawayOutputDto.giveaways();
+        if (giveaways.isEmpty()) {
             return NOT_APPLICABLE.value;
         }
 
-        return String.format(MENU_ITEM.value, giveaway.getName(), giveawayOutputDto.count());
+        return giveaways.entrySet().stream()
+                .map(entry ->
+                        String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
+                .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 
     public void outputPromotionBenefitList(PromotionBenefitOutputDto promotionBenefitOutputDto) {
-        EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit = promotionBenefitOutputDto.promotionBenefit();
-        String promotionBenefitMessage = getPromotionBenefitMessage(promotionBenefit);
+        String promotionBenefitMessage = getPromotionBenefitMessage(promotionBenefitOutputDto);
         String resultMessage = getResultMessage(BENEFIT_LIST_MESSAGE.value, promotionBenefitMessage);
         writer.writeLine(resultMessage);
     }
 
-    private String getPromotionBenefitMessage(EnumMap<ChristmasPromotionBenefit, Integer> promotionBenefit) {
-        if (promotionBenefit.isEmpty()) {
+    private String getPromotionBenefitMessage(PromotionBenefitOutputDto promotionBenefitOutputDto) {
+        Map<String, Integer> promotionBenefits = promotionBenefitOutputDto.promotionBenefit();
+        if (promotionBenefits.isEmpty()) {
             return NOT_APPLICABLE.value;
         }
-        return promotionBenefit.entrySet().stream()
+        return promotionBenefits.entrySet().stream()
                 .map(entry ->
                         String.format(PROMOTION_BENEFIT_ITEM.value,
-                                entry.getKey().getName(), entry.getValue()))
+                                entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 

@@ -1,6 +1,7 @@
 package christmas.dto.output;
 
 import christmas.domain.menu.constants.Menu;
+import java.util.Map;
 
-public record GiveawayOutputDto(Menu giveaway, int count) {
+public record GiveawayOutputDto(Map<Menu, Integer> giveaways) {
 }

@@ -5,8 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import christmas.domain.base.Money;
 import christmas.domain.menu.MenuItem;
 import christmas.domain.menu.constants.Menu;
-import christmas.domain.promotion.constants.ChristmasPromotionBenefit;
-import java.util.EnumMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -20,13 +21,14 @@ class PromotionAppliedResultTest {
         @Test
         void 증정메뉴가_있는_경우() {
             //given
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits = new EnumMap<>(ChristmasPromotionBenefit.class);
-            discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1200));
-            discountBenefits.put(ChristmasPromotionBenefit.WEEKDAY_DISCOUNT, Money.valueOf(2023));
-            discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            MenuItem giveawayBenefit = new MenuItem(Menu.CHAMPAGNE, 1);
+            Map<String, Money> discountBenefits = new LinkedHashMap<>();
+            discountBenefits.put("할인1", Money.valueOf(1200));
+            discountBenefits.put("할인2", Money.valueOf(2023));
+            discountBenefits.put("할인3", Money.valueOf(1000));
+            Map<String, MenuItem> giveawayBenefis = new LinkedHashMap<>();
+            giveawayBenefis.put("증정 이벤트", new MenuItem(Menu.CHAMPAGNE, 1));
             //when
-            PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefit);
+            PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefis);
             //then
             assertThat(result.getTotalDiscountPrice()).isEqualTo(Money.valueOf(4223));
             assertThat(result.getTotalBenefitPrice()).isEqualTo(Money.valueOf(29223));
@@ -35,13 +37,13 @@ class PromotionAppliedResultTest {
         @Test
         void 증정메뉴가_없는_경우() {
             //given
-            EnumMap<ChristmasPromotionBenefit, Money> discountBenefits = new EnumMap<>(ChristmasPromotionBenefit.class);
-            discountBenefits.put(ChristmasPromotionBenefit.CHRISTMAS_D_DAY_DISCOUNT, Money.valueOf(1400));
-            discountBenefits.put(ChristmasPromotionBenefit.WEEKEND_DISCOUNT, Money.valueOf(2023));
-            discountBenefits.put(ChristmasPromotionBenefit.SPECIAL_DISCOUNT, Money.valueOf(1000));
-            MenuItem giveawayBenefit = null;
+            Map<String, Money> discountBenefits = new LinkedHashMap<>();
+            discountBenefits.put("할인1", Money.valueOf(1400));
+            discountBenefits.put("할인2", Money.valueOf(2023));
+            discountBenefits.put("할인3", Money.valueOf(1000));
+            Map<String, MenuItem> giveawayBenefis = Collections.EMPTY_MAP;
             //when
-            PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefit);
+            PromotionAppliedResult result = new PromotionAppliedResult(discountBenefits, giveawayBenefis);
             //then
             assertThat(result.getTotalDiscountPrice()).isEqualTo(Money.valueOf(4423));
             assertThat(result.getTotalBenefitPrice()).isEqualTo(Money.valueOf(4423));

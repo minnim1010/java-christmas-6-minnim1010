@@ -41,6 +41,10 @@ public class ReservationDate {
         return date.equals(compare);
     }
 
+    public boolean isSameDayOfWeek(DayOfWeek dayOfWeek) {
+        return date.getDayOfWeek().equals(dayOfWeek);
+    }
+
     public boolean isWeekend() {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
@@ -48,6 +52,13 @@ public class ReservationDate {
 
     public boolean isBetween(LocalDate startDate, LocalDate endDate) {
         return !date.isBefore(startDate) && !date.isAfter(endDate);
+    }
+
+    public int getDaysBetween(LocalDate target) {
+        if (target.isAfter(date)) {
+            return date.until(target).getDays();
+        }
+        return target.until(date).getDays();
     }
 
     @Override
