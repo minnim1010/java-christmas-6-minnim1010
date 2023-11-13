@@ -1,4 +1,4 @@
-package christmas.dto.output;
+package christmas.dto;
 
 import christmas.domain.menu.constants.Menu;
 import java.util.Map;

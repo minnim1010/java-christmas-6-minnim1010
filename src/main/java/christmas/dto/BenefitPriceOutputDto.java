@@ -1,4 +1,4 @@
-package christmas.dto.output;
+package christmas.dto;
 
 public record BenefitPriceOutputDto(int benefitAppliedPrice) {
 }
