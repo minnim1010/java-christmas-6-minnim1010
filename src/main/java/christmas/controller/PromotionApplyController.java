@@ -40,19 +40,12 @@ public class PromotionApplyController {
                 promotionAppliedResult.getTotalBenefitPrice());
 
         printPromotionBenefitPreviewStart(reservation.getReservationDate());
-
         printOrderMenu(reservation.getOrderMenu());
-
         printTotalOrderPrice(reservation.getTotalPrice());
-
         printGiveaway(promotionAppliedResult.getGiveawayBenefits());
-
         printAppliedPromotionBenefits(promotionAppliedResult);
-
         printBenefitPrice(promotionAppliedResult.getTotalBenefitPrice());
-
         printBenefitAppliedPrice(reservation.getTotalPrice(), promotionAppliedResult.getTotalDiscountPrice());
-
         printReceivedEventBadge(receivedBadge);
     }
 

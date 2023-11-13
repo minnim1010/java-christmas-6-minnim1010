@@ -25,11 +25,9 @@ public class ChristmasConfig {
 
         ChristmasPromotionService christmasPromotionService = christmasPromotionApplyService(
                 christmasPromotion());
-
         ReservationController reservationController = reservationController(reservationView, errorView);
         PromotionApplyController promotionApplyController = promotionApplyController(promotionApplyResultView,
                 christmasPromotionService);
-
         return new MainController(reservationController, promotionApplyController, errorView);
     }
 

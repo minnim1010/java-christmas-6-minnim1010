@@ -32,12 +32,12 @@ public class OrderMenuItem {
         }
     }
 
-    public Menu getMenuItem() {
-        return menu;
-    }
-
     public boolean isBeverage() {
         return menu.isBeverage();
+    }
+
+    public Menu getMenuItem() {
+        return menu;
     }
 
     public int getCount() {
