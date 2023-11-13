@@ -28,8 +28,6 @@ class ReservationDateTest {
             //when
             ReservationDate reservationDate = ReservationDate.valueOf(year, month, day);
             //then
-            assertThat(reservationDate.getYear()).isEqualTo(year);
-            assertThat(reservationDate.getMonth()).isEqualTo(month);
             assertThat(reservationDate.getDay()).isEqualTo(day);
         }
 

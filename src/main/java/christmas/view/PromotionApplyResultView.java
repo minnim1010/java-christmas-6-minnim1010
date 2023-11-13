@@ -10,11 +10,11 @@ import static christmas.view.constants.NoticeMessage.BENEFIT_LIST_MESSAGE;
 import static christmas.view.constants.NoticeMessage.BENEFIT_PRICE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.EVENT_BADGE_MESSAGE;
 import static christmas.view.constants.NoticeMessage.NOT_APPLICABLE;
-import static christmas.view.constants.NoticeMessage.NO_BENEFIT_PRICE;
 import static christmas.view.constants.NoticeMessage.ORDER_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.OUTPUT_GIVEAWAY_MENU_MESSAGE;
 import static christmas.view.constants.NoticeMessage.PROMOTION_BENEFIT_PREVIEW_START_MESSAGE;
 import static christmas.view.constants.NoticeMessage.TOTAL_ORDER_PRICE_MESSAGE;
+import static christmas.view.constants.NoticeMessage.ZERO_AMOUNT;
 
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.promotion.constants.EventBadge;
@@ -39,8 +39,7 @@ public class PromotionApplyResultView {
     }
 
     public void outputPromotionBenefitPreviewStart(ReservationDateOutputDto reservedVisitDateDto) {
-        writer.writeLine(String.format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value,
-                reservedVisitDateDto.month(), reservedVisitDateDto.day()));
+        writer.writeLine(String.format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, reservedVisitDateDto.day()));
     }
 
     public void outputOrderMenu(OrderMenuOutputDto orderMenuOutputDto) {
@@ -110,7 +109,7 @@ public class PromotionApplyResultView {
 
     private String getBenefitPriceMessage(String benefitPriceFormat, int benefitPrice) {
         if (benefitPrice == 0) {
-            return NO_BENEFIT_PRICE.value;
+            return ZERO_AMOUNT.value;
         }
         return String.format(benefitPriceFormat, benefitPrice);
     }

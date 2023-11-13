@@ -21,20 +21,8 @@ public class ReservationDate {
         return new ReservationDate(year, month, day);
     }
 
-    public int getYear() {
-        return date.getYear();
-    }
-
-    public int getMonth() {
-        return date.getMonthValue();
-    }
-
     public int getDay() {
         return date.getDayOfMonth();
-    }
-
-    public DayOfWeek getDayOfWeek() {
-        return date.getDayOfWeek();
     }
 
     public boolean isSameDay(LocalDate compare) {

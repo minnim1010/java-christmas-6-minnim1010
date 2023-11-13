@@ -65,12 +65,12 @@ class PromotionApplyResultViewTest {
     @Test
     void 이벤트혜택_미리보기_시작_출력_테스트() {
         //given
-        ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(12, 1);
+        ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(1);
         //when
         promotionApplyResultView.outputPromotionBenefitPreviewStart(reservationDateOutputDto);
         //then
         assertThat(writer.getOutput()).isEqualTo(
-                format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 12, 1) + LINE_SEPARATOR);
+                format(PROMOTION_BENEFIT_PREVIEW_START_MESSAGE.value, 1) + LINE_SEPARATOR);
     }
 
     @Test

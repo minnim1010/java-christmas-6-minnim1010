@@ -1,4 +1,4 @@
 package christmas.dto.output;
 
-public record ReservationDateOutputDto(int month, int day) {
+public record ReservationDateOutputDto(int day) {
 }

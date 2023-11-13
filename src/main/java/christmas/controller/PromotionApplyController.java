@@ -57,8 +57,7 @@ public class PromotionApplyController {
     }
 
     private void printPromotionBenefitPreviewStart(ReservationDate reservationDate) {
-        ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(reservationDate.getMonth(),
-                reservationDate.getDay());
+        ReservationDateOutputDto reservationDateOutputDto = new ReservationDateOutputDto(reservationDate.getDay());
         promotionApplyResultView.outputPromotionBenefitPreviewStart(reservationDateOutputDto);
     }
 
