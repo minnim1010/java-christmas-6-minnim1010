@@ -3,10 +3,10 @@ package christmas.domain.benefit.rule;
 import christmas.domain.base.Money;
 import christmas.domain.reservation.Reservation;
 
-public class RequireTotalPriceRule implements Rule {
+public class TotalPriceAboveThresholdRule implements Rule {
     private final Money requireTotalPrice;
 
-    public RequireTotalPriceRule(Money requireTotalPrice) {
+    public TotalPriceAboveThresholdRule(Money requireTotalPrice) {
         this.requireTotalPrice = requireTotalPrice;
     }
 

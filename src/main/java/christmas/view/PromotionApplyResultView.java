@@ -45,8 +45,7 @@ public class PromotionApplyResultView {
     public void outputOrderMenu(OrderMenuOutputDto orderMenuOutputDto) {
         EnumMap<Menu, Integer> orderMenu = orderMenuOutputDto.orderMenu();
         String orderMenuMessage = orderMenu.entrySet().stream()
-                .map(entry ->
-                        String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
+                .map(entry -> String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
 
         String resultMessage = getResultMessage(ORDER_MENU_MESSAGE.value, orderMenuMessage);
@@ -77,8 +76,7 @@ public class PromotionApplyResultView {
         }
 
         return giveaways.entrySet().stream()
-                .map(entry ->
-                        String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
+                .map(entry -> String.format(MENU_ITEM.value, entry.getKey().getName(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 
@@ -94,9 +92,8 @@ public class PromotionApplyResultView {
             return NOT_APPLICABLE.value;
         }
         return promotionBenefits.entrySet().stream()
-                .map(entry ->
-                        String.format(PROMOTION_BENEFIT_ITEM.value,
-                                entry.getKey(), entry.getValue()))
+                .map(entry -> String.format(PROMOTION_BENEFIT_ITEM.value,
+                        entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining(LINE_SEPARATOR.value));
     }
 

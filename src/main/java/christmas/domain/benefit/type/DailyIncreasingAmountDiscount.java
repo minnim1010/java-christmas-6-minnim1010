@@ -5,12 +5,12 @@ import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
 import java.time.LocalDate;
 
-public class IncreasePerDayAmountDiscount implements AmountDiscountType {
+public class DailyIncreasingAmountDiscount implements AmountDiscountType {
     private final Money baseAmount;
     private final Money discountAmountPerDay;
     private final LocalDate startDate;
 
-    public IncreasePerDayAmountDiscount(Money baseAmount, Money discountAmountPerDay, LocalDate startDate) {
+    public DailyIncreasingAmountDiscount(Money baseAmount, Money discountAmountPerDay, LocalDate startDate) {
         this.baseAmount = baseAmount;
         this.discountAmountPerDay = discountAmountPerDay;
         this.startDate = startDate;

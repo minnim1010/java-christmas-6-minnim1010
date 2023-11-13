@@ -27,7 +27,7 @@ public class PromotionAppliedResult {
     }
 
     private Money calculateTotalBenefitPrice(Money totalDiscountPrice) {
-        if (giveawayBenefits == null) {
+        if (giveawayBenefits.isEmpty()) {
             return totalDiscountPrice;
         }
 

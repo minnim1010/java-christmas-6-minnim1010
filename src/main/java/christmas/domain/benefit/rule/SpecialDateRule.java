@@ -4,10 +4,10 @@ import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
 import java.time.LocalDate;
 
-public class SpecialDayRule implements Rule {
+public class SpecialDateRule implements Rule {
     private final LocalDate specialDay;
 
-    public SpecialDayRule(LocalDate specialDay) {
+    public SpecialDateRule(LocalDate specialDay) {
         this.specialDay = specialDay;
     }
 
