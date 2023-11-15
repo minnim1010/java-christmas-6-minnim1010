@@ -1,26 +1,12 @@
 package christmas.domain.promotion;
 
 import christmas.domain.base.Money;
-import christmas.domain.base.ReservationDate;
-import christmas.domain.benefit.policy.DiscountPolicy;
-import christmas.domain.benefit.policy.GiveawayPolicy;
-import christmas.domain.benefit.rule.AnyMatchRule;
-import christmas.domain.benefit.rule.DayOfWeekRule;
 import christmas.domain.benefit.rule.PeriodRule;
-import christmas.domain.benefit.rule.SpecialDateRule;
+import christmas.domain.benefit.rule.Rule;
 import christmas.domain.benefit.rule.TotalPriceAboveThresholdRule;
-import christmas.domain.benefit.rule.WeekdayRule;
-import christmas.domain.benefit.rule.WeekendRule;
-import christmas.domain.benefit.type.DailyIncreasingAmountDiscount;
-import christmas.domain.benefit.type.FixedAmountDiscount;
-import christmas.domain.benefit.type.MenuCategoryAmountDiscount;
-import christmas.domain.benefit.type.MenuGiveaway;
 import christmas.domain.menu.MenuItem;
-import christmas.domain.menu.constants.Menu;
-import christmas.domain.menu.constants.MenuCategory;
 import christmas.domain.promotion.constants.EventBadge;
 import christmas.domain.reservation.Reservation;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,57 +17,29 @@ public class ChristmasPromotion {
     private static final int YEAR = 2023;
     private static final int MONTH = 12;
     private static final LocalDate START_DATE = LocalDate.of(YEAR, MONTH, 1);
-    private static final LocalDate CHRISTMAS_DATE = LocalDate.of(YEAR, MONTH, 25);
     private static final LocalDate END_DATE = LocalDate.of(YEAR, MONTH, 31);
     private static final Money REQUIRED_TOTAL_PRICE = Money.valueOf(10_000);
-
-    private final List<DiscountPolicy> discountPolicies = new ArrayList<>();
-    private final GiveawayPolicy giveawayPolicy;
+    private final List<Rule> christmasPromotionRules = new ArrayList<>();
+    private final ChristmasPromotionBenefit christmasPromotionBenefit = new ChristmasPromotionBenefit(YEAR, MONTH,
+            START_DATE);
 
     public ChristmasPromotion() {
-        DiscountPolicy christmasDDayDiscount = new DiscountPolicy("크리스마스 디데이 할인",
-                new PeriodRule(START_DATE, CHRISTMAS_DATE),
-                new DailyIncreasingAmountDiscount(Money.valueOf(1000), Money.valueOf(100), START_DATE));
+        registerRules();
+    }
 
-        DiscountPolicy weekDayDiscount = new DiscountPolicy("평일 할인",
-                new WeekdayRule(),
-                new MenuCategoryAmountDiscount(MenuCategory.DESSERT, Money.valueOf(YEAR)));
-
-        DiscountPolicy weekendDiscount = new DiscountPolicy("주말 할인",
-                new WeekendRule(),
-                new MenuCategoryAmountDiscount(MenuCategory.MAIN_COURSE, Money.valueOf(YEAR)));
-
-        DiscountPolicy specialDiscount = new DiscountPolicy("특별 할인",
-                new AnyMatchRule(new DayOfWeekRule(DayOfWeek.SUNDAY), new SpecialDateRule(CHRISTMAS_DATE)),
-                new FixedAmountDiscount(Money.valueOf(1000)));
-
-        GiveawayPolicy champagneGiveaway =
-                new GiveawayPolicy("증정 이벤트",
-                        new TotalPriceAboveThresholdRule(Money.valueOf(120_000)),
-                        new MenuGiveaway(Menu.CHAMPAGNE, 1));
-
-        discountPolicies.add(christmasDDayDiscount);
-        discountPolicies.add(weekDayDiscount);
-        discountPolicies.add(weekendDiscount);
-        discountPolicies.add(specialDiscount);
-
-        giveawayPolicy = champagneGiveaway;
+    private void registerRules() {
+        christmasPromotionRules.add(new PeriodRule(START_DATE, END_DATE));
+        christmasPromotionRules.add(new TotalPriceAboveThresholdRule(REQUIRED_TOTAL_PRICE));
     }
 
     public boolean isSatisfiedBy(Reservation reservation) {
-        Money totalPrice = reservation.getTotalPrice();
-        return isPromotionPeriod(reservation.getReservationDate())
-                && totalPrice.isGreaterOrEqual(REQUIRED_TOTAL_PRICE);
-    }
-
-    private boolean isPromotionPeriod(ReservationDate reservationDate) {
-        return reservationDate.isBetween(START_DATE, END_DATE);
+        return christmasPromotionRules.stream().allMatch(rule -> rule.isSatisfiedBy(reservation));
     }
 
     public Map<String, Money> applyDiscountBenefit(Reservation reservation) {
         Map<String, Money> discountBenefits = new LinkedHashMap<>();
 
-        discountPolicies.stream()
+        christmasPromotionBenefit.getDiscountBenefits().stream()
                 .filter(discountPolicy -> discountPolicy.isSatisfiedBy(reservation))
                 .forEach(discountPolicy -> {
                     Money discountAmount = discountPolicy.getDiscountAmount(reservation);
@@ -96,9 +54,10 @@ public class ChristmasPromotion {
     public Map<String, MenuItem> applyGiveawayPolicy(Reservation reservation) {
         Map<String, MenuItem> giveawayBenefits = new LinkedHashMap<>();
 
-        if (giveawayPolicy.isSatisfiedBy(reservation)) {
-            giveawayBenefits.put(giveawayPolicy.getName(), giveawayPolicy.getGiveaway());
-        }
+        christmasPromotionBenefit.getGiveawayBenefits().stream()
+                .filter(giveawayPolicy -> giveawayPolicy.isSatisfiedBy(reservation)).forEach(
+                        giveawayPolicy -> giveawayPolicy.getGiveaway()
+                                .ifPresent(menuItem -> giveawayBenefits.put(giveawayPolicy.getName(), menuItem)));
 
         return giveawayBenefits;
     }

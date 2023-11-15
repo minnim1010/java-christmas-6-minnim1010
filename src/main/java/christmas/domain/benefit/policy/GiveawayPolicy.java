@@ -4,6 +4,7 @@ import christmas.domain.benefit.rule.Rule;
 import christmas.domain.benefit.type.GiveawayType;
 import christmas.domain.menu.MenuItem;
 import christmas.domain.reservation.Reservation;
+import java.util.Optional;
 
 public class GiveawayPolicy extends Policy {
     private final Rule rule;
@@ -19,7 +20,7 @@ public class GiveawayPolicy extends Policy {
         return rule.isSatisfiedBy(reservation);
     }
 
-    public MenuItem getGiveaway() {
-        return giveawayType.getGiveaway();
+    public Optional<MenuItem> getGiveaway() {
+        return Optional.ofNullable(giveawayType.getGiveaway());
     }
 }

@@ -18,8 +18,7 @@ public class ChristmasPromotionService {
 
     public PromotionAppliedResult apply(Reservation reservation) {
         if (!christmasPromotion.isSatisfiedBy(reservation)) {
-            return new PromotionAppliedResult(
-                    Collections.emptyMap(), Collections.emptyMap());
+            return new PromotionAppliedResult(Collections.emptyMap(), Collections.emptyMap());
         }
 
         Map<String, Money> discountBenefits = christmasPromotion.applyDiscountBenefit(reservation);
