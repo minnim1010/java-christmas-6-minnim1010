@@ -2,6 +2,7 @@ package christmas.util;
 
 import static christmas.common.exception.ErrorMessage.INVALID_DATE;
 import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
+import static christmas.common.exception.ErrorMessage.INVALID_ORDER_COUNT_RANGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -89,6 +90,16 @@ class ParserTest {
             assertThatThrownBy(() -> Parser.parseOrderMenuItem(input))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageContaining(INVALID_ORDER.getMessage());
+        }
+
+        @ValueSource(strings = {"b-23454323445"})
+        @ParameterizedTest
+        void 메뉴개수가_올바르지않다면_예외가_발생한다(String input) {
+            //given
+            //when then
+            assertThatThrownBy(() -> Parser.parseOrderMenuItem(input))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining(INVALID_ORDER_COUNT_RANGE.getMessage());
         }
     }
 
