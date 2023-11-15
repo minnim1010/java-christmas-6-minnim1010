@@ -1,7 +1,7 @@
 package christmas.dto;
 
 import christmas.domain.menu.constants.Menu;
-import java.util.Map;
+import java.util.EnumMap;
 
-public record GiveawayOutputDto(Map<Menu, Integer> giveaways) {
+public record GiveawayOutputDto(EnumMap<Menu, Integer> giveaways) {
 }

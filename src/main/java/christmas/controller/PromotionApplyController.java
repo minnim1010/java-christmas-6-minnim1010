@@ -66,12 +66,12 @@ public class PromotionApplyController {
     }
 
     private void printGiveaway(Map<String, MenuItem> giveawayBenefits) {
-        LinkedHashMap<Menu, Integer> giveaways = giveawayBenefits.values().stream()
+        EnumMap<Menu, Integer> giveaways = giveawayBenefits.values().stream()
                 .collect(Collectors.toMap(
                         MenuItem::menu,
                         MenuItem::count,
                         (existing, replacement) -> existing,
-                        LinkedHashMap::new));
+                        () -> new EnumMap<>(Menu.class)));
 
         GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaways);
         promotionApplyResultView.outputGiveaway(giveawayOutputDto);

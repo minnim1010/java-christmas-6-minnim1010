@@ -92,7 +92,7 @@ class PromotionApplyResultViewTest {
     @Test
     void 증정메뉴_출력_테스트() {
         //given
-        Map<Menu, Integer> giveaways = new LinkedHashMap<>();
+        EnumMap<Menu, Integer> giveaways = new EnumMap<>(Menu.class);
         giveaways.put(Menu.CHAMPAGNE, 1);
         GiveawayOutputDto giveawayOutputDto = new GiveawayOutputDto(giveaways);
         //when
