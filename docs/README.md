@@ -59,6 +59,40 @@
 
 <br/>
 
+## 🗳️패키지 구조
+
+### main 패키지 구조
+
+```
+.
+├── Application.java
+├── common
+├── controller
+├── domain
+├── dto
+├── service
+├── util
+└── view
+```
+
+### test 패키지 구조
+
+```
+.
+├── ApplicationTest.java
+├── controller
+├── domain
+├── fixture
+├── integration
+├── service
+├── stub
+├── testConfig
+├── util
+└── view
+```
+
+<br/>
+
 ## 📝 기능 구현 목록
 
 **입출력 기능**
