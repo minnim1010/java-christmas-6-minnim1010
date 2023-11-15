@@ -6,6 +6,8 @@ import christmas.domain.reservation.Reservation;
 import christmas.util.Parser;
 import christmas.view.ErrorView;
 import christmas.view.ReservationView;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ReservationController {
     private static final int YEAR = 2023;
@@ -31,22 +33,24 @@ public class ReservationController {
     }
 
     private ReservationDate getReservationDate() {
-        while (true) {
-            try {
-                String reservationDayInput = reservationView.inputReservationDay();
-                int reservationDay = Parser.parseDate(reservationDayInput);
-                return ReservationDate.valueOf(YEAR, MONTH, reservationDay);
-            } catch (IllegalArgumentException e) {
-                errorView.outputError(e.getMessage());
-            }
-        }
+        return getValidInput(
+                reservationView::inputReservationDay,
+                input -> ReservationDate.valueOf(YEAR, MONTH, Parser.parseDate(input))
+        );
     }
 
     private OrderMenu getOrderMenu() {
+        return getValidInput(
+                reservationView::inputOrderMenu,
+                input -> OrderMenu.valueOf(Parser.parseOrderMenuItemList(input))
+        );
+    }
+
+    private <T> T getValidInput(Supplier<String> inputSupplier, Function<String, T> parser) {
         while (true) {
             try {
-                String orderMenuInput = reservationView.inputOrderMenu();
-                return OrderMenu.valueOf(Parser.parseOrderMenuItemList(orderMenuInput));
+                String input = inputSupplier.get();
+                return parser.apply(input);
             } catch (IllegalArgumentException e) {
                 errorView.outputError(e.getMessage());
             }

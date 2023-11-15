@@ -49,10 +49,10 @@ public class Parser {
     }
 
     public static List<OrderMenuItem> parseOrderMenuItemList(String input) {
-            String inputWithoutSpaces = removeSpaces(input);
+        String inputWithoutSpaces = removeSpaces(input);
         String[] split = DELIMITER_PATTERN.split(inputWithoutSpaces);
-            return Arrays.stream(split)
-                    .map(Parser::parseOrderMenuItem)
-                    .toList();
+        return Arrays.stream(split)
+                .map(Parser::parseOrderMenuItem)
+                .toList();
     }
 }
