@@ -1,8 +1,8 @@
 package christmas.controller;
 
-import christmas.domain.base.ReservationDate;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.reservation.Reservation;
+import christmas.domain.reservation.ReservationDate;
 import christmas.util.Parser;
 import christmas.view.ErrorView;
 import christmas.view.ReservationView;

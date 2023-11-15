@@ -1,7 +1,7 @@
 package christmas.domain.benefit.rule;
 
-import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
+import christmas.domain.reservation.ReservationDate;
 
 public class WeekdayRule implements Rule {
 

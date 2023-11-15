@@ -1,4 +1,4 @@
-package christmas.domain.base;
+package christmas.domain.reservation;
 
 import static christmas.common.exception.ErrorMessage.INVALID_DATE;
 
@@ -39,6 +39,9 @@ public class ReservationDate {
     }
 
     public boolean isBetween(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date should be before or equal to end date");
+        }
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 

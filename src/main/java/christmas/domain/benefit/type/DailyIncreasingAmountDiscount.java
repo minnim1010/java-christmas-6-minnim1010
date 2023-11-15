@@ -1,8 +1,8 @@
 package christmas.domain.benefit.type;
 
 import christmas.domain.base.Money;
-import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
+import christmas.domain.reservation.ReservationDate;
 import java.time.LocalDate;
 
 public class DailyIncreasingAmountDiscount implements AmountDiscountType {

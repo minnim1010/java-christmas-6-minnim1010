@@ -1,11 +1,11 @@
 package christmas.fixture;
 
 import christmas.domain.base.Money;
-import christmas.domain.base.ReservationDate;
 import christmas.domain.menu.OrderMenu;
 import christmas.domain.menu.OrderMenuItem;
 import christmas.domain.menu.constants.Menu;
 import christmas.domain.reservation.Reservation;
+import christmas.domain.reservation.ReservationDate;
 import christmas.util.Parser;
 import java.util.ArrayList;
 import java.util.Iterator;

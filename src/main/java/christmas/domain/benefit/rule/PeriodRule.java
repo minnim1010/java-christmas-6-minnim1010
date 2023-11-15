@@ -1,7 +1,7 @@
 package christmas.domain.benefit.rule;
 
-import christmas.domain.base.ReservationDate;
 import christmas.domain.reservation.Reservation;
+import christmas.domain.reservation.ReservationDate;
 import java.time.LocalDate;
 
 public class PeriodRule implements Rule {
