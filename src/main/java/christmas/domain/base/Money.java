@@ -1,12 +1,25 @@
 package christmas.domain.base;
 
+import static christmas.common.exception.ErrorMessage.INVALID_MONEY_RANGE;
+
 public class Money {
     public static final Money ZERO = Money.valueOf(0);
-
+    private static final int MAX_AMOUNT = 2_000_000_000;
     private final int value;
 
     protected Money(int value) {
+        validateRange(value);
         this.value = value;
+    }
+
+    private static void validateRange(int value) {
+        if (isValidMoneyRange(value)) {
+            throw new IllegalArgumentException(INVALID_MONEY_RANGE.getMessage(value));
+        }
+    }
+
+    private static boolean isValidMoneyRange(int value) {
+        return value < 0 || value > MAX_AMOUNT;
     }
 
     public static Money valueOf(int value) {

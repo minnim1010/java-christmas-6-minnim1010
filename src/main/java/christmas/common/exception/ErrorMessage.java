@@ -1,6 +1,7 @@
 package christmas.common.exception;
 
 public enum ErrorMessage {
+    INVALID_MONEY_RANGE("금액은 0 이상 정수여야 합니다."),
     INVALID_DATE("유효하지 않은 날짜입니다. 다시 입력해 주세요."),
     INVALID_ORDER("유효하지 않은 주문입니다. 다시 입력해 주세요."),
     INVALID_ORDER_COUNT_RANGE("메뉴 개수는 1개 이상 최대 20개 이하여야 합니다."),

@@ -1,9 +1,8 @@
-package christmas.domain.constants;
+package christmas.domain.promotion.constants;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import christmas.domain.base.Money;
-import christmas.domain.promotion.constants.EventBadge;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,10 +1,9 @@
-package christmas.domain.reservation;
+package christmas.domain.menu;
 
 import static christmas.common.exception.ErrorMessage.INVALID_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.domain.menu.OrderMenuItem;
 import christmas.domain.menu.constants.Menu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
