@@ -118,9 +118,16 @@ public class PromotionApplyResultView {
         writer.writeLine(resultMessage);
     }
 
+    private static String getEventBadgeMessage(EventBadge eventBadge) {
+        if (eventBadge == null) {
+            return NOT_APPLICABLE.value;
+        }
+        return eventBadge.getName();
+    }
+
     public void outputReceivedEventBadge(EventBadgeOutputDto eventBadgeOutputDto) {
         EventBadge eventBadge = eventBadgeOutputDto.eventBadge();
-        String eventBadgeMessage = eventBadge.getName();
+        String eventBadgeMessage = getEventBadgeMessage(eventBadge);
         String resultMessage = getResultMessage(EVENT_BADGE_MESSAGE.value, eventBadgeMessage);
         writer.writeLine(resultMessage);
     }

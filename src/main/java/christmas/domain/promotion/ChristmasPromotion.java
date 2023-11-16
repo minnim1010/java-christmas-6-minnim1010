@@ -63,6 +63,6 @@ public class ChristmasPromotion {
     }
 
     public EventBadge giveEventBadge(Money totalBenefitPrice) {
-        return EventBadge.findReceivableBadge(totalBenefitPrice);
+        return EventBadge.findReceivableBadge(totalBenefitPrice).orElse(null);
     }
 }

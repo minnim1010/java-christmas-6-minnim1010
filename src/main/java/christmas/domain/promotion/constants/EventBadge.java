@@ -2,12 +2,12 @@ package christmas.domain.promotion.constants;
 
 import christmas.domain.base.Money;
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum EventBadge {
     SANTA("산타", Money.valueOf(20_000)),
     TREE("트리", Money.valueOf(10_000)),
-    STAR("별", Money.valueOf(5_000)),
-    NOT_APPLICABLE("없음", Money.valueOf(0));
+    STAR("별", Money.valueOf(5_000));
 
     private final String name;
     private final Money requiredBadgeAmount;
@@ -17,11 +17,10 @@ public enum EventBadge {
         this.requiredBadgeAmount = requiredBadgeAmount;
     }
 
-    public static EventBadge findReceivableBadge(Money totalBenefitPrice) {
+    public static Optional<EventBadge> findReceivableBadge(Money totalBenefitPrice) {
         return Arrays.stream(values())
                 .filter(badge -> totalBenefitPrice.isGreaterOrEqual(badge.requiredBadgeAmount))
-                .findFirst()
-                .orElse(EventBadge.NOT_APPLICABLE);
+                .findFirst();
     }
 
     public String getName() {

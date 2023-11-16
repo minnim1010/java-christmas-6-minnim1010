@@ -28,7 +28,7 @@ public class ChristmasPromotionService {
 
     public EventBadge getEventBadge(Reservation reservation, Money totalBenefitPrice) {
         if (!christmasPromotion.isSatisfiedBy(reservation)) {
-            return EventBadge.NOT_APPLICABLE;
+            return null;
         }
         return christmasPromotion.giveEventBadge(totalBenefitPrice);
     }

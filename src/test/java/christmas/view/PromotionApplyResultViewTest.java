@@ -34,7 +34,7 @@ class PromotionApplyResultViewTest {
         return Stream.of(
                 Arguments.of(EventBadge.SANTA,
                         String.format("%s<12월 이벤트 배지>%s산타%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR)),
-                Arguments.of(EventBadge.NOT_APPLICABLE,
+                Arguments.of(null,
                         String.format("%s<12월 이벤트 배지>%s없음%s", LINE_SEPARATOR, LINE_SEPARATOR, LINE_SEPARATOR))
         );
     }
